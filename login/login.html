@@ -54,6 +54,25 @@
       box-sizing: border-box;
     }
 
+    .password-wrapper {
+      display: flex;
+      gap: 8px;
+    }
+
+    .toggle-btn {
+      width: auto;
+      padding: 0 14px;
+      background: #2a2a2a;
+      color: #aaa;
+      border: 1px solid #3a3a3a;
+      white-space: nowrap;
+    }
+
+    .toggle-btn:hover {
+      background: #333333;
+      color: white;
+    }
+
     button {
       width: 100%;
       padding: 10px;
@@ -88,7 +107,12 @@
 
     <div class="block">
       <input id="email" type="email" placeholder="Email" />
-      <input id="password" type="password" placeholder="Password" />
+      
+      <div class="password-wrapper">
+        <input id="password" type="password" placeholder="Password" />
+        <button id="toggle-password" type="button" class="toggle-btn">Show</button>
+      </div>
+
       <button id="email-btn" class="primary">Log in with Email</button>
     </div>
   </div>
@@ -121,6 +145,16 @@
     const redirect = params.get("redirect");
     window.location.href = redirect || "/index.html";
   }
+
+  // Toggle Password Visibility
+  const passwordInput = document.getElementById("password");
+  const togglePasswordBtn = document.getElementById("toggle-password");
+
+  togglePasswordBtn.addEventListener("click", () => {
+    const isPassword = passwordInput.type === "password";
+    passwordInput.type = isPassword ? "text" : "password";
+    togglePasswordBtn.textContent = isPassword ? "Hide" : "Show";
+  });
 
   // Google Sign-In
   document.getElementById("google-btn").addEventListener("click", async () => {
