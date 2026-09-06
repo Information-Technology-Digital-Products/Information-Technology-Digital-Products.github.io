@@ -24,6 +24,11 @@
 
 <body>
 
+
+  <!-- Top-Right Auth Widget Target -->
+  <div id="auth-header"></div>
+  <br/>
+
   <header>
     <div class="header-title">HOW MACHINES LEARN AND THINK</div>
     <div class="header-class">Lesson 2</div>
@@ -909,6 +914,35 @@ print(f"TESTING complete: ERROR = {ERROR:.2f}")
       );
     }
   </script>
+
+
+
+
+
+
+
+
+
+
+
+<script type="module">
+  import { protectPage } from "/access/access-control.js";
+
+  // Protects Lesson 1 access
+  protectPage("lesson1", "/lesson1/lesson1.html");
+</script>
+
+
+
+<script type="module">
+  import { protectPage, renderAuthHeader } from "/access/access-control.js";
+
+  // Protect page (redirects to main page if logged in but unpaid)
+  protectPage("lesson1", "/lesson1/lesson1.html");
+
+  // Display user info & logout button
+  renderAuthHeader("auth-header");
+</script>
 
 </body>
 </html>
