@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Montserrat:wght@500;700;800;900&family=Nunito:wght@400;600;700;800;900&display=swap');
+
 /* ── DESIGN TOKENS ── */
 :root {
   --black:        #111111;
@@ -30,6 +32,11 @@
   --color-blue: #007bff;
   --color-green: #34d399;
 
+  /* Typography Tokens */
+  --font-display: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:    'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Courier New', monospace;
+
   /* Sizing & Responsive Breakpoint Variables */
   --content-max-width: 768px;
   --sphere-diameter: 10px;
@@ -40,7 +47,6 @@
   --border-on-color:  transparent !important;
   --sphere-off-color: transparent !important;
   --sphere-on-color:  transparent !important;
-  
 }
 
 @media (prefers-color-scheme: light) {
@@ -64,7 +70,7 @@
   box-sizing: border-box; 
   margin: 0; 
   padding: 0; 
-  font-family: 'Nunito', sans-serif; 
+  font-family: var(--font-body); 
   font-size: 17px; 
   line-height: 1.75; 
 }
@@ -85,8 +91,8 @@ em { font-style: italic; }
 
 /* ── HEADER ── */
 header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-align: center; }
-.header-eyebrow, .header-tag { font-size: 17px; color: var(--green); font-weight: 700; }
-.header-title { font-size: 25px; font-weight: 900; line-height: 1.2; color: var(--yellow); }
+.header-eyebrow, .header-tag { font-family: var(--font-display); font-size: 17px; color: var(--green); font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
+.header-title { font-family: var(--font-display); font-size: 25px; font-weight: 900; line-height: 1.2; color: var(--yellow); letter-spacing: -0.02em; }
 .header-subtitle { font-size: 17px; color: #aaaaaa; font-weight: 700; }
 .header-audience { font-size: 17px; color: #ffffff; font-weight: 700; }
 
@@ -98,9 +104,9 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   margin-right: auto;
   width: 100%;
 }
-.section-label { display: inline-block; background: #111111; color: #ffffff; font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 0px; border-radius: 16px; margin: 36px 0 0px; }
+.section-label { display: inline-block; background: #111111; color: #ffffff; font-family: var(--font-display); font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; padding: 7px 0px; border-radius: 16px; margin: 36px 0 0px; }
 .card { background: var(--white); border: 1.5px solid var(--border); border-radius: 16px; margin: 10px 0; overflow: hidden; }
-.card-header { background: #111111; color: #ffffff; font-weight: 900; letter-spacing: 0.06em; padding: 11px 0px; }
+.card-header { background: #111111; color: #ffffff; font-family: var(--font-display); font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; padding: 11px 0px; }
 .card-body { padding: 20px 0px; }
 
 /* ── CALLOUTS & FORMULAS ── */
@@ -110,36 +116,36 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
 .callout-error { background: var(--red-lt); border-left: 4px solid var(--red); }
 .callout-info    { background: var(--blue-lt);  border-left: 4px solid var(--blue); }
 .callout-warning { background: var(--orange-lt); border: 1px solid var(--orange); border-radius: 16px; }
-.callout-title { font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.callout-title { font-family: var(--font-display); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
 .callout-neutral .callout-title { color: var(--gray); }
 .callout-success .callout-title { color: var(--green); }
 .callout-error .callout-title  { color: var(--red); }
 .callout-info .callout-title    { color: var(--blue); }
 
 .formula-block { background: #111111; color: #ffffff; border-radius: 16px; padding: 20px 0px; margin: 16px 0; font-weight: 700; line-height: 2; border-left: 5px solid var(--green); }
-.formula-block-label { color: var(--green); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+.formula-block-label { color: var(--green); font-family: var(--font-display); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
 .formula-block p { padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 4px; }
-.formula { color: var(--yellow); }
+.formula { color: var(--yellow); font-family: var(--font-mono); }
 
 /* ── TABLES ── */
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 14px 0; }
 .doc-table, .data-table, .mapping-table { border-collapse: collapse; margin: 0 auto; font-weight: 700; }
 .doc-table td, .mapping-table td { border: 1px solid #aaaaaa; padding: 8px 0px; text-align: center; vertical-align: middle; }
 .doc-table .label-cell { border: none; text-align: left; color: var(--black); font-weight: 700; padding-left: 0px; white-space: nowrap; }
-.doc-table .table-title-row td, .data-table th { background: #111111; color: #ffffff; font-weight: 900; text-transform: uppercase; }
-.doc-table .col-header td { background: var(--gray-lt); font-weight: 900; text-transform: uppercase; font-size: 15px; }
+.doc-table .table-title-row td, .data-table th { background: #111111; color: #ffffff; font-family: var(--font-display); font-weight: 900; letter-spacing: 0.05em; text-transform: uppercase; }
+.doc-table .col-header td { background: var(--gray-lt); font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: 15px; }
 .doc-table .total-row td { background: #111111; color: var(--yellow); font-weight: 900; }
 .doc-table .sum-row td { background: var(--gray-lt); font-weight: 900; }
 .data-table { width: 100%; border-collapse: collapse; }
 .data-table th { padding: 8px 0px; text-align: left; }
 .data-table td { padding: 8px 0px; border-bottom: 1px solid var(--border); font-weight: 700; }
-.mapping-table tr:first-child td { background: #111111; color: #ffffff; font-weight: 900; text-transform: uppercase; }
+.mapping-table tr:first-child td { background: #111111; color: #ffffff; font-family: var(--font-display); font-weight: 900; text-transform: uppercase; }
 
 /* ── CODE & INTERACTIVE ── */
-.pythoncode { background-color: #1e1e1e; color: #ffffff; padding: 2px; border-radius: 16px; font-family: 'Courier New', monospace; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-.pythoncode h3 { margin-top: 0; color: #ffffff; }
-.pythoncode textarea { width: 100%; font-weight: bold; border: 1px solid #444; padding: 15px 0px; font-size: 1rem; border-radius: 16px; outline: none; resize: vertical; background: #1e1e1e; color: #ffffff; font-family: 'Courier New', monospace; }
-.pythoncode div[id^="output-window"] { background-color: #000000; color: #ffffff; font-weight: bold; padding: 15px 0px; margin: 0px; border-radius: 16px; white-space: pre-wrap; border-left: 4px solid #00ff00; font-size: 0.95rem; font-family: 'Courier New', monospace; }
+.pythoncode { background-color: #1e1e1e; color: #ffffff; padding: 2px; border-radius: 16px; font-family: var(--font-mono); margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+.pythoncode h3 { margin-top: 0; color: #ffffff; font-family: var(--font-display); font-weight: 800; }
+.pythoncode textarea { width: 100%; font-weight: bold; border: 1px solid #444; padding: 15px 0px; font-size: 0.95rem; border-radius: 16px; outline: none; resize: vertical; background: #1e1e1e; color: #ffffff; font-family: var(--font-mono); line-height: 1.6; }
+.pythoncode div[id^="output-window"] { background-color: #000000; color: #ffffff; font-weight: bold; padding: 15px 0px; margin: 0px; border-radius: 16px; white-space: pre-wrap; border-left: 4px solid #00ff00; font-size: 0.95rem; font-family: var(--font-mono); line-height: 1.6; }
 
 /* RUN Button (EXCEPTED: retains specific padding/margin) */
 .pythoncode button { 
@@ -148,7 +154,10 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   color: #000000; 
   border: none; 
   padding: 10px 25px; 
-  font-weight: bold; 
+  font-family: var(--font-display);
+  font-weight: 800; 
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   border-radius: 16px; 
   cursor: pointer; 
   transition: background 0.2s, transform 0.1s ease; 
@@ -256,6 +265,7 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   color: #fff;
   padding: 4px 8px;
   border-radius: 4px;
+  font-family: var(--font-body);
   font-size: 12px;
   white-space: nowrap;
   opacity: 0;
@@ -302,21 +312,22 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
 }
 
 /* ── TYPOGRAPHY & BLOCKS ── */
-.inner-heading { font-weight: 900; font-size: 19px; margin: 24px 0 10px; }
+.inner-heading { font-family: var(--font-display); font-weight: 900; font-size: 19px; margin: 24px 0 10px; letter-spacing: -0.01em; }
 .prose-list { margin: 10px 0 14px 24px; }
 .prose-list li { margin-bottom: 8px; font-weight: 400; }
 
 .neuron-emoji { font-size: 60px; text-align: center; margin: 10px 0 4px; line-height: 1.1; }
-.neuron-label { text-align: center; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+.neuron-label { text-align: center; font-family: var(--font-display); font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
 
 .pricing-sub { color: #cccccc; font-weight: 700; margin-bottom: 4px; }
-.pricing-price { font-weight: 900; color: var(--yellow); font-size: 20px; margin-top: 10px; }
+.pricing-price { font-family: var(--font-display); font-weight: 900; color: var(--yellow); font-size: 20px; margin-top: 10px; }
 
 /* Price Pill Button */
 .price-pill { 
   display: inline-block; 
   background: linear-gradient(135deg, #28a745 0%, #006400 100%); 
   color: white; 
+  font-family: var(--font-display);
   font-weight: 900; 
   font-size: 17px; 
   padding: 12px 0px; 
@@ -377,21 +388,21 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   border: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(0, 0, 0, 0.2);
 }
-.footer-copyright { color: var(--gray); font-weight: 700; font-size: 14px; letter-spacing: 0.05em;}
+.footer-copyright { color: var(--gray); font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: 0.05em;}
 
 /* ── CLASS SPECIFIC UTILS ── */
 .influence-panel { background: var(--white); border-left: 4px solid var(--blue); border-radius: 16px; padding: 12px 0px; margin: 12px 0 16px; color: var(--black); font-weight: 700; line-height: 1.85; }
-.influence-panel-label { color: var(--blue); font-weight: 900; letter-spacing: 0.08em; margin-bottom: 6px; }
+.influence-panel-label { color: var(--blue); font-family: var(--font-display); font-weight: 900; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
 .takeaway { background: var(--gray-lt); border: 2px solid var(--black); border-radius: 16px; padding: 14px 0px; margin: 14px 0; font-weight: 900; }
-.takeaway-label { color: var(--gray); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
-.result-banner, .completion-banner { background: #111111; color: var(--yellow); font-weight: 900; text-align: center; padding: 0px 0px; border-radius: 16px; margin: 14px 0; }
+.takeaway-label { color: var(--gray); font-family: var(--font-display); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.result-banner, .completion-banner { background: #111111; color: var(--yellow); font-family: var(--font-display); font-weight: 900; text-align: center; padding: 0px 0px; border-radius: 16px; margin: 14px 0; }
 .success-callout { background: var(--green-lt); border: 2px solid var(--green); border-radius: 16px; padding: 14px 0px; margin: 12px 0; font-weight: 800; color: var(--green); }
 .error-chip { display: inline-block; background: var(--red-lt); color: var(--red); font-weight: 800; padding: 4px 0px; border-radius: 16px; margin: 0px 0; }
 .diagram img { max-width: 100%; border-radius: 16px; display: block; margin: 0 20; border: 1.5px solid var(--border); }
-.step-heading { display: flex; align-items: center; gap: 12px; font-weight: 900; margin: 28px 0 12px; }
-.step-badge { background: var(--green); color: #ffffff; width: 32px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 900; flex-shrink: 0; }
+.step-heading { display: flex; align-items: center; gap: 12px; font-family: var(--font-display); font-weight: 900; margin: 28px 0 12px; }
+.step-badge { background: var(--green); color: #ffffff; width: 32px; height: 32px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 900; flex-shrink: 0; }
 .teaser { background: #111111; color: #ffffff; border-radius: 16px; padding: 28px 0px; text-align: center; margin: 36px 0 0; font-weight: 700; }
-.teaser-next { color: var(--yellow); font-weight: 900; font-size: 22px; margin: 8px 0; }
+.teaser-next { color: var(--yellow); font-family: var(--font-display); font-weight: 900; font-size: 22px; margin: 8px 0; letter-spacing: -0.01em; }
 
 html, body {
   height: 100%;
@@ -414,8 +425,9 @@ html, body {
   border: 2px solid var(--current-border-color);
   background: transparent !important;
   color: white;
+  font-family: var(--font-display);
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 800;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -529,8 +541,9 @@ html, body {
   color: #ffffff;
   padding: 4px 10px;
   border-radius: 6px;
+  font-family: var(--font-display);
   font-size: 16px;
-  font-weight: bold;
+  font-weight: 800;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -600,6 +613,7 @@ html, body {
 }
 
 .pricing-block .header-eyebrow {
+  font-family: var(--font-display);
   font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
@@ -609,6 +623,7 @@ html, body {
 }
 
 .pricing-title {
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
@@ -620,6 +635,7 @@ html, body {
 }
 
 .green-title {
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
@@ -631,6 +647,7 @@ html, body {
 }
 
 .blue-title {
+  font-family: var(--font-display);
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
@@ -781,8 +798,3 @@ html, body {
     padding-right: 20px;
   }
 }
-
-
-
-
-
