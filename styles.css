@@ -309,8 +309,8 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
 .neuron-emoji { font-size: 60px; text-align: center; margin: 10px 0 4px; line-height: 1.1; }
 .neuron-label { text-align: center; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
 
-.pricing-sub { color: #cccccc; font-weight: 700; margin-bottom: 4px; }
-.pricing-price { font-weight: 900; color: var(--yellow); font-size: 20px; margin-top: 10px; }
+.pricing-sub { color: #cccccc; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
+.pricing-price { font-weight: 900; color: var(--yellow); font-size: 17px; margin-top: 10px; }
 
 /* Price Pill Button */
 .price-pill { 
