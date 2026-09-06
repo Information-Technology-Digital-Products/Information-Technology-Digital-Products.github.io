@@ -86,15 +86,17 @@ export async function protectPage(lessonId, path) {
 }
 
 /**
- * Logout current user
+ * Logout current user and stay on the current page
  */
 export async function logoutUser() {
   await signOut(auth);
-  window.location.href = "/login/login.html";
+  // Reload current page to update state without forcing a redirect to login.html
+  window.location.reload();
 }
 
 /**
- * Renders the top-right authentication component showing email and logout button
+ * Renders the top-right authentication component showing email and logout button.
+ * Only displays when the user is logged in.
  */
 export async function renderAuthHeader(containerId = "auth-header") {
   const user = await getCurrentUser();
@@ -115,11 +117,8 @@ export async function renderAuthHeader(containerId = "auth-header") {
       await logoutUser();
     });
   } else {
-    container.innerHTML = `
-      <div style="position: fixed; top: 16px; right: 16px; z-index: 9999; font-family: Arial, sans-serif;">
-        <a href="/login/login.html" style="background: #4a90e2; color: white; text-decoration: none; padding: 8px 16px; border-radius: 12px; font-weight: bold; font-size: 14px; display: inline-block;">Log In</a>
-      </div>
-    `;
+    // Leave container empty when logged out
+    container.innerHTML = "";
   }
 }
 
