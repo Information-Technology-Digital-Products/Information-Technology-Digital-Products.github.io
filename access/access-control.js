@@ -4,13 +4,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDynBXFEWiPQn1ggxgzCsSocnHPXCOnhd8",
-  authDomain: "youomni-7e3b8.firebaseapp.com",
-  projectId: "youomni-7e3b8",
-  storageBucket: "youomni-7e3b8.firebasestorage.app",
-  messagingSenderId: "349979735697",
-  appId: "1:349979735697:web:aa49de6fdd07b40cdff130",
-  measurementId: "G-C1GVBRZZN3"
+  apiKey: "AIzaSyAwXP9KUEUdiu0836CE20HCX-lBrGmiqjI",
+  authDomain: "youomni-7d0d6.firebaseapp.com",
+  projectId: "youomni-7d0d6",
+  storageBucket: "youomni-7d0d6.firebasestorage.app",
+  messagingSenderId: "604663505682",
+  appId: "1:604663505682:web:4132d3f7f5c908b31409cb"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -58,7 +57,7 @@ export function hasAccess(lessonId) {
   // 3. Lesson 1 purchase grants access ONLY to lesson 1
   if (lessonId === "lesson1" && access.lesson1) return true;
 
-  // 4. Deny access to all other lessons (e.g. lesson2 through lesson20)
+  // 4. Deny access to all other lessons
   return false;
 }
 
@@ -102,7 +101,7 @@ export async function logoutUser() {
 /**
  * Renders the top-right authentication component showing user identifier and logout button.
  */
-export async function renderAuthHeader(containerId = "auth-header") {
+export async function renderAuthHeader(containerId = "auth-header", showLoginWhenLoggedOut = false) {
   const user = await getCurrentUser();
   const container = document.getElementById(containerId);
 
@@ -120,6 +119,12 @@ export async function renderAuthHeader(containerId = "auth-header") {
     document.getElementById("global-logout-btn").addEventListener("click", async () => {
       await logoutUser();
     });
+  } else if (showLoginWhenLoggedOut) {
+    container.innerHTML = `
+      <div style="position: fixed; top: 16px; right: 16px; z-index: 9999; font-family: Arial, sans-serif;">
+        <a href="/login/login.html" style="background: #4a90e2; color: white; text-decoration: none; padding: 8px 16px; border-radius: 12px; font-weight: bold; font-size: 14px; display: inline-block;">Log In</a>
+      </div>
+    `;
   } else {
     container.innerHTML = "";
   }
@@ -136,7 +141,7 @@ export function buyLesson1() {
 
 export function buyFullCourse() {
   const access = getAccess();
-  access.fullCourse = true;
   access.lesson1 = true;
+  access.fullCourse = true;
   localStorage.setItem(ACCESS_KEY, JSON.stringify(access));
 }

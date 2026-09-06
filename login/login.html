@@ -104,13 +104,12 @@
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDynBXFEWiPQn1ggxgzCsSocnHPXCOnhd8",
-    authDomain: "youomni-7e3b8.firebaseapp.com",
-    projectId: "youomni-7e3b8",
-    storageBucket: "youomni-7e3b8.firebasestorage.app",
-    messagingSenderId: "349979735697",
-    appId: "1:349979735697:web:aa49de6fdd07b40cdff130",
-    measurementId: "G-C1GVBRZZN3"
+    apiKey: "AIzaSyAwXP9KUEUdiu0836CE20HCX-lBrGmiqjI",
+    authDomain: "youomni-7d0d6.firebaseapp.com",
+    projectId: "youomni-7d0d6",
+    storageBucket: "youomni-7d0d6.firebasestorage.app",
+    messagingSenderId: "604663505682",
+    appId: "1:604663505682:web:4132d3f7f5c908b31409cb"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -134,7 +133,7 @@
     }
   });
 
-  // Email + Password Login with Automatic Account Creation Fallback
+  // Email + Password Login with Automatic Registration Fallback
   document.getElementById("email-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
@@ -145,11 +144,9 @@
     }
 
     try {
-      // 1. Attempt Sign-In
       await signInWithEmailAndPassword(auth, email, password);
       redirectAfterLogin();
     } catch (error) {
-      // 2. If credentials do not match or user is not found, attempt registration
       if (
         error.code === "auth/user-not-found" || 
         error.code === "auth/invalid-credential" ||
@@ -160,7 +157,6 @@
           redirectAfterLogin();
         } catch (signupError) {
           if (signupError.code === "auth/email-already-in-use") {
-            // Falls back to sign-in if multiple accounts setting is strict
             try {
               await signInWithEmailAndPassword(auth, email, password);
               redirectAfterLogin();
