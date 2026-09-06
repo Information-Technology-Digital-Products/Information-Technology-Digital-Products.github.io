@@ -309,8 +309,8 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
 .neuron-emoji { font-size: 60px; text-align: center; margin: 10px 0 4px; line-height: 1.1; }
 .neuron-label { text-align: center; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
 
-.pricing-sub { color: #cccccc; font-weight: 700; font-size: 17px; margin-bottom: 4px; }
-.pricing-price { font-weight: 900; color: var(--yellow); font-size: 17px; margin-top: 10px; }
+.pricing-sub { color: #cccccc; font-weight: 700; margin-bottom: 4px; }
+.pricing-price { font-weight: 900; color: var(--yellow); font-size: 20px; margin-top: 10px; }
 
 /* Price Pill Button */
 .price-pill { 
@@ -588,7 +588,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 17px;
+  font-size: 13px;
   font-weight: 700;
   line-height: 1.4;
   color: var(--text-main);
@@ -600,7 +600,7 @@ html, body {
 }
 
 .pricing-block .header-eyebrow {
-  font-size: 17px;
+  font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -642,7 +642,7 @@ html, body {
 }
 
 .pricing-block .header-subtitle {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 1.4;
   color: var(--text-muted);
@@ -654,7 +654,7 @@ html, body {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--accent-emerald);
   background: rgba(52, 211, 153, 0.08);
@@ -781,3 +781,8 @@ html, body {
     padding-right: 20px;
   }
 }
+
+
+
+
+
