@@ -3,12 +3,14 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-// 🔴 Replace with your actual Firebase config details
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDynBXFEWiPQn1ggxgzCsSocnHPXCOnhd8",
+  authDomain: "youomni-7e3b8.firebaseapp.com",
+  projectId: "youomni-7e3b8",
+  storageBucket: "youomni-7e3b8.firebasestorage.app",
+  messagingSenderId: "349979735697",
+  appId: "1:349979735697:web:aa49de6fdd07b40cdff130",
+  measurementId: "G-C1GVBRZZN3"
 };
 
 const app = initializeApp(firebaseConfig);
