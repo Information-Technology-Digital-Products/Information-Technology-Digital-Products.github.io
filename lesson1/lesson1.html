@@ -812,13 +812,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<script src="/access/access-control.js">
-</script>
+<script type="module">
+  import { protectPage } from "/access/access-control.js";
 
-<script>
+  // Protect current page execution asynchronously
   protectPage("lesson1", "/lesson1/lesson1.html");
 </script>
-
 
 
 </body>

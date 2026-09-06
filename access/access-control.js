@@ -1,28 +1,37 @@
-const USER_KEY = "youomni_user";
+/* access/access-control.js */
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+// 🔴 Replace with your actual Firebase config details
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app);
+
 const ACCESS_KEY = "youomni_access";
 
 /**
- * Check login
+ * Returns a Promise that resolves with the current authenticated Firebase user.
  */
-function isLoggedIn() {
-  return localStorage.getItem(USER_KEY) === "true";
+export function getCurrentUser() {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
 }
 
 /**
- * Redirect to login if not logged in
+ * Get access configuration
  */
-function requireAuth(redirectPath) {
-  if (!isLoggedIn()) {
-    window.location.href = "/login/login.html?redirect=" + redirectPath;
-    return false;
-  }
-  return true;
-}
-
-/**
- * Get access data
- */
-function getAccess() {
+export function getAccess() {
   const data = localStorage.getItem(ACCESS_KEY);
   return data
     ? JSON.parse(data)
@@ -33,9 +42,9 @@ function getAccess() {
 }
 
 /**
- * Check lesson access
+ * Check lesson access rights
  */
-function hasAccess(lessonId) {
+export function hasAccess(lessonId) {
   const access = getAccess();
 
   if (lessonId === "index") return true;
@@ -46,36 +55,33 @@ function hasAccess(lessonId) {
 }
 
 /**
- * Main protection function
+ * Main async protection function
  */
-function protectPage(lessonId, path) {
-  // Step 1: check login
-  if (!requireAuth(path)) return;
+export async function protectPage(lessonId, path) {
+  const user = await getCurrentUser();
 
-  // Step 2: check access
+  // Step 1: Check authentication
+  if (!user) {
+    window.location.href = "/login/login.html?redirect=" + encodeURIComponent(path);
+    return;
+  }
+
+  // Step 2: Check course access entitlement
   if (!hasAccess(lessonId)) {
-    // 🔥 CLEAN BEHAVIOR (no alert)
-    window.location.href = "/login/login.html?redirect=" + path;
+    window.location.href = "/login/login.html?redirect=" + encodeURIComponent(path);
   }
 }
 
-/* =========================
-   PURCHASE SIMULATION
-========================= */
-
 /**
- * Buy lesson1 ($9)
+ * Purchase Simulation Actions
  */
-function buyLesson1() {
+export function buyLesson1() {
   const access = getAccess();
   access.lesson1 = true;
   localStorage.setItem(ACCESS_KEY, JSON.stringify(access));
 }
 
-/**
- * Buy full course ($199)
- */
-function buyFullCourse() {
+export function buyFullCourse() {
   const access = getAccess();
   access.fullCourse = true;
   access.lesson1 = true;

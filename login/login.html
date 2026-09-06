@@ -90,26 +90,55 @@
   <div class="block">
     <input id="email" type="email" placeholder="Email" />
     <input id="password" type="password" placeholder="Password" />
-    <button class="primary" onclick="handleLogin()">Enter</button>
+    <button id="email-btn" class="primary">Enter</button>
   </div>
 
   <div class="or">Or</div>
 
   <div class="block">
-    <button class="google" onclick="handleGoogle()">Continue with Google</button>
+    <button id="google-btn" class="google">Continue with Google</button>
   </div>
 
 </div>
 
-<script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { 
+    getAuth, 
+    signInWithPopup, 
+    GoogleAuthProvider,
+    signInWithEmailAndPassword
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // 🔴 Replace with your actual Firebase config details
+  const firebaseConfig = {
+    apiKey: "YOUR_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
   function redirectAfterLogin() {
     const params = new URLSearchParams(window.location.search);
     const redirect = params.get("redirect");
-
     window.location.href = redirect || "/index.html";
   }
 
-  function handleLogin() {
+  document.getElementById("google-btn").addEventListener("click", async () => {
+    try {
+      await signInWithPopup(auth, provider);
+      redirectAfterLogin();
+    } catch (error) {
+      console.error("Google Auth Error:", error);
+      alert("Google login failed: " + error.message);
+    }
+  });
+
+  document.getElementById("email-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
@@ -118,19 +147,14 @@
       return;
     }
 
-    localStorage.setItem("youomni_user", "true");
-
-    // ✅ FIX: delay avoids redirect bug
-    setTimeout(redirectAfterLogin, 50);
-  }
-
-  function handleGoogle() {
-    // 🔥 still fake (no real OAuth yet)
-    localStorage.setItem("youomni_user", "true");
-
-    // ✅ FIX
-    setTimeout(redirectAfterLogin, 50);
-  }
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      redirectAfterLogin();
+    } catch (error) {
+      console.error("Email Auth Error:", error);
+      alert("Login failed: " + error.message);
+    }
+  });
 </script>
 
 </body>
