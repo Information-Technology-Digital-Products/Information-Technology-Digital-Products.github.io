@@ -73,34 +73,43 @@
       color: black;
     }
 
-    .or {
+    .toggle-text {
       text-align: center;
-      font-size: 12px;
-      opacity: 0.6;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 4px;
+    }
+
+    .toggle-link {
+      color: #4a90e2;
+      cursor: pointer;
+      text-decoration: underline;
     }
   </style>
 </head>
 
 <body>
 
-
   <div class="container">
 
-  <h1>LOG IN</h1>
+    <h1 id="form-title">LOG IN</h1>
 
-  <div class="block">
-    <button id="google-btn" class="google">Log in with Google</button>
+    <div class="block">
+      <button id="google-btn" class="google">Log in with Google</button>
+    </div>
+
+    <div class="block">
+      <input id="email" type="email" placeholder="Email" />
+      <input id="password" type="password" placeholder="Password" />
+      <button id="email-btn" class="primary">Log in with Email</button>
+      
+      <div class="toggle-text">
+        <span id="toggle-label">Don't have an account?</span>
+        <span id="toggle-btn" class="toggle-link">Sign Up</span>
+      </div>
+    </div>
+
   </div>
-
-  <h1>or</h1>
-
-  <div class="block">
-    <input id="email" type="email" placeholder="Email" />
-    <input id="password" type="password" placeholder="Password" />
-    <button id="email-btn" class="primary">Log in with Email</button>
-  </div>
-
-</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -126,10 +135,33 @@
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
+  let isSignUpMode = false;
+
+  const formTitle = document.getElementById("form-title");
+  const emailBtn = document.getElementById("email-btn");
+  const toggleLabel = document.getElementById("toggle-label");
+  const toggleBtn = document.getElementById("toggle-btn");
+
+  // Toggle between Log In and Sign Up modes
+  toggleBtn.addEventListener("click", () => {
+    isSignUpMode = !isSignUpMode;
+    if (isSignUpMode) {
+      formTitle.innerText = "SIGN UP";
+      emailBtn.innerText = "Sign up with Email";
+      toggleLabel.innerText = "Already have an account?";
+      toggleBtn.innerText = "Log In";
+    } else {
+      formTitle.innerText = "LOG IN";
+      emailBtn.innerText = "Log in with Email";
+      toggleLabel.innerText = "Don't have an account?";
+      toggleBtn.innerText = "Sign Up";
+    }
+  });
+
   function redirectAfterLogin() {
     const params = new URLSearchParams(window.location.search);
     const redirect = params.get("redirect");
-    window.location.href = redirect || "/index.html";
+    window.location.href = redirect || "https://youomni.github.io";
   }
 
   // Google Sign-In
@@ -143,31 +175,41 @@
     }
   });
 
-  // Email + Password Login / Auto Registration
-  document.getElementById("email-btn").addEventListener("click", async () => {
-    const email = document.getElementById("email").value;
+  // Email + Password Submission
+  emailBtn.addEventListener("click", async () => {
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
     if (!email || !password) {
-      alert("Enter email and password");
+      alert("Please enter both email and password.");
       return;
     }
 
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      redirectAfterLogin();
-    } catch (error) {
-      if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          redirectAfterLogin();
-        } catch (signupError) {
-          console.error("Signup Error:", signupError);
-          alert("Authentication failed: " + signupError.message);
+    if (isSignUpMode) {
+      // Create New Account
+      try {
+        await createUserWithEmailAndPassword(auth, email, password);
+        redirectAfterLogin();
+      } catch (error) {
+        if (error.code === "auth/email-already-in-use") {
+          alert("This email is already registered. Please switch to Log In.");
+        } else if (error.code === "auth/weak-password") {
+          alert("Password should be at least 6 characters.");
+        } else {
+          alert("Sign up failed: " + error.message);
         }
-      } else {
-        console.error("Login Error:", error);
-        alert("Login failed: " + error.message);
+      }
+    } else {
+      // Log In Existing User
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        redirectAfterLogin();
+      } catch (error) {
+        if (error.code === "auth/invalid-credential" || error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+          alert("Incorrect email or password. If you don't have an account yet, click 'Sign Up' below.");
+        } else {
+          alert("Login failed: " + error.message);
+        }
       }
     }
   });
