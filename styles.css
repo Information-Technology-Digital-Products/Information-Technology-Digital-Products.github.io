@@ -588,7 +588,7 @@ html, body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
+  font-size: 17px;
   font-weight: 700;
   line-height: 1.4;
   color: var(--text-main);
@@ -600,7 +600,7 @@ html, body {
 }
 
 .pricing-block .header-eyebrow {
-  font-size: 12px;
+  font-size: 17px;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -642,7 +642,7 @@ html, body {
 }
 
 .pricing-block .header-subtitle {
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.4;
   color: var(--text-muted);
@@ -654,7 +654,7 @@ html, body {
   justify-content: center;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 17px;
   font-weight: 700;
   color: var(--accent-emerald);
   background: rgba(52, 211, 153, 0.08);
@@ -781,8 +781,3 @@ html, body {
     padding-right: 20px;
   }
 }
-
-
-
-
-
