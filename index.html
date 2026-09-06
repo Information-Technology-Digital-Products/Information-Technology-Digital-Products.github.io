@@ -46,7 +46,7 @@
 <body>
 
 <div id="auth-header"></div>
-<br/>
+
 
 
 
@@ -689,6 +689,13 @@ print(f"🔥 OUTPUT = {OUTPUT}")
   import { renderAuthHeader } from "/access/access-control.js";
 
   // Renders the email and logout button in the top-right
+  renderAuthHeader("auth-header");
+</script>
+
+ <!-- Delete <br/> -->
+<script type="module">
+  import { renderAuthHeader } from "/access/access-control.js";
+
   renderAuthHeader("auth-header");
 </script>
 
