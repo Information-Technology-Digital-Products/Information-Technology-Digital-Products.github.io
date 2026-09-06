@@ -49,15 +49,21 @@ export function getAccess() {
 export function hasAccess(lessonId) {
   const access = getAccess();
 
+  // 1. Index (Trial Lesson) is open to everyone
   if (lessonId === "index") return true;
+
+  // 2. Full course owner gets access to ALL lessons (1-20)
   if (access.fullCourse) return true;
+
+  // 3. Lesson 1 purchase grants access ONLY to lesson 1
   if (lessonId === "lesson1" && access.lesson1) return true;
 
+  // 4. Deny access to all other lessons (e.g. lesson2 through lesson20)
   return false;
 }
 
 /**
- * Dynamic price calculator for full course upgrade
+ * Dynamic price calculator for full course upgrade UI
  */
 export function getUpgradePrice() {
   const access = getAccess();
@@ -79,24 +85,22 @@ export async function protectPage(lessonId, path) {
     return;
   }
 
-  // 2. If logged in BUT HAS NOT PAID -> Redirect to Main Page (https://youomni.github.io)
+  // 2. If logged in BUT HAS NOT PAID for this specific lesson -> Redirect to Main Page
   if (!hasAccess(lessonId)) {
     window.location.href = "https://youomni.github.io";
   }
 }
 
 /**
- * Logout current user and stay on the current page
+ * Logout current user and refresh the current page
  */
 export async function logoutUser() {
   await signOut(auth);
-  // Reload current page to update state without forcing a redirect to login.html
   window.location.reload();
 }
 
 /**
- * Renders the top-right authentication component showing email and logout button.
- * Only displays when the user is logged in.
+ * Renders the top-right authentication component showing user identifier and logout button.
  */
 export async function renderAuthHeader(containerId = "auth-header") {
   const user = await getCurrentUser();
@@ -117,7 +121,6 @@ export async function renderAuthHeader(containerId = "auth-header") {
       await logoutUser();
     });
   } else {
-    // Leave container empty when logged out
     container.innerHTML = "";
   }
 }
