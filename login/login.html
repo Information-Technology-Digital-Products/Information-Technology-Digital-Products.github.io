@@ -133,7 +133,7 @@
     }
   });
 
-  // Email + Password Login with Automatic Registration Fallback
+  // Email + Password Login with Automatic Account Creation Fallback
   document.getElementById("email-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
@@ -144,9 +144,11 @@
     }
 
     try {
+      // 1. Attempt Sign-In
       await signInWithEmailAndPassword(auth, email, password);
       redirectAfterLogin();
     } catch (error) {
+      // 2. If credentials do not match or user is not found, attempt registration
       if (
         error.code === "auth/user-not-found" || 
         error.code === "auth/invalid-credential" ||

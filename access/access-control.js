@@ -57,7 +57,7 @@ export function hasAccess(lessonId) {
   // 3. Lesson 1 purchase grants access ONLY to lesson 1
   if (lessonId === "lesson1" && access.lesson1) return true;
 
-  // 4. Deny access to all other lessons
+  // 4. Deny access to all other lessons (e.g. lesson2 through lesson20)
   return false;
 }
 
