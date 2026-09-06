@@ -818,27 +818,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-<script type="module">
-  import { protectPage } from "/access/access-control.js";
-
-  // Protects Lesson 1 access
-  protectPage("lesson1", "/lesson1/lesson1.html");
-</script>
-
-
 <script type="module">
   import { protectPage, renderAuthHeader } from "/access/access-control.js";
 
-  // Protect page (redirects to main page if logged in but unpaid)
+  // Check access for Lesson 1
   protectPage("lesson1", "/lesson1/lesson1.html");
 
   // Display user info & logout button
   renderAuthHeader("auth-header");
 </script>
-
-
 
 
 </body>

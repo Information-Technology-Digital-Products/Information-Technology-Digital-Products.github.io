@@ -923,24 +923,13 @@ print(f"TESTING complete: ERROR = {ERROR:.2f}")
 
 
 
-
-
-<script type="module">
-  import { protectPage } from "/access/access-control.js";
-
-  // Protects Lesson 1 access
-  protectPage("lesson1", "/lesson1/lesson1.html");
-</script>
-
-
-
 <script type="module">
   import { protectPage, renderAuthHeader } from "/access/access-control.js";
 
-  // Protect page (redirects to main page if logged in but unpaid)
-  protectPage("lesson1", "/lesson1/lesson1.html");
+  // Check access specifically for Lesson 2
+  protectPage("lesson2", "/lesson2/lesson2.html");
 
-  // Display user info & logout button
+  // Display top-right auth widget
   renderAuthHeader("auth-header");
 </script>
 
