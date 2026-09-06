@@ -22,6 +22,12 @@
 
 <body>
 
+
+<!-- Top-Right Auth Widget Target -->
+  <div id="auth-header"></div>
+
+
+
 <header><br/>
     <div class="pricing-title">HOW<br/>MACHINES<br/>LEARN AND<br/>THINK</div>
     <div class="green-title">Lesson 1</div>
@@ -815,9 +821,29 @@ document.addEventListener("DOMContentLoaded", function () {
 <script type="module">
   import { protectPage } from "/access/access-control.js";
 
-  // Protect current page execution asynchronously
+  // Protects Lesson 1 access
   protectPage("lesson1", "/lesson1/lesson1.html");
 </script>
+
+
+
+
+
+
+
+
+
+<script type="module">
+  import { protectPage, renderAuthHeader } from "/access/access-control.js";
+
+  // Protect page (redirects to main page if logged in but unpaid)
+  protectPage("lesson1", "/lesson1/lesson1.html");
+
+  // Display user info & logout button
+  renderAuthHeader("auth-header");
+</script>
+
+
 
 
 </body>
