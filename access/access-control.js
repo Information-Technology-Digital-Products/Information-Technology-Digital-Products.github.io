@@ -1,7 +1,7 @@
 /* access/access-control.js */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDynBXFEWiPQn1ggxgzCsSocnHPXCOnhd8",
@@ -31,7 +31,7 @@ export function getCurrentUser() {
 }
 
 /**
- * Get access configuration
+ * Get current access configuration from storage
  */
 export function getAccess() {
   const data = localStorage.getItem(ACCESS_KEY);
@@ -44,34 +44,58 @@ export function getAccess() {
 }
 
 /**
- * Check lesson access rights
+ * Check access rights for any given lesson
  */
 export function hasAccess(lessonId) {
   const access = getAccess();
 
+  // Index (Trial Lesson) is open to everyone
   if (lessonId === "index") return true;
+
+  // Option 2 & 3: Full course grants access to all 20 lessons
   if (access.fullCourse) return true;
+
+  // Option 1: Lesson 1 purchase grants access only to lesson 1
   if (lessonId === "lesson1" && access.lesson1) return true;
 
   return false;
 }
 
 /**
- * Main async protection function
+ * Returns the price for upgrading to the full course based on purchase history
+ */
+export function getUpgradePrice() {
+  const access = getAccess();
+
+  if (access.fullCourse) return 0;   // Already owns all 20 lessons
+  if (access.lesson1) return 190;    // Option 3: Upgrade price ($199 - $9 = $190)
+  return 199;                        // Option 2: Full price upfront
+}
+
+/**
+ * Page protection guard
  */
 export async function protectPage(lessonId, path) {
   const user = await getCurrentUser();
 
-  // Step 1: Check authentication
+  // 1. Check if user is logged in
   if (!user) {
     window.location.href = "/login/login.html?redirect=" + encodeURIComponent(path);
     return;
   }
 
-  // Step 2: Check course access entitlement
+  // 2. Check if user has paid access for this lesson
   if (!hasAccess(lessonId)) {
     window.location.href = "/login/login.html?redirect=" + encodeURIComponent(path);
   }
+}
+
+/**
+ * Logout helper
+ */
+export async function logoutUser() {
+  await signOut(auth);
+  window.location.href = "/login/login.html";
 }
 
 /**

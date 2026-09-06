@@ -107,7 +107,8 @@
     getAuth, 
     signInWithPopup, 
     GoogleAuthProvider,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -130,6 +131,7 @@
     window.location.href = redirect || "/index.html";
   }
 
+  // Google Sign-In
   document.getElementById("google-btn").addEventListener("click", async () => {
     try {
       await signInWithPopup(auth, provider);
@@ -140,6 +142,7 @@
     }
   });
 
+  // Email + Password Login / Auto Registration
   document.getElementById("email-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -153,8 +156,18 @@
       await signInWithEmailAndPassword(auth, email, password);
       redirectAfterLogin();
     } catch (error) {
-      console.error("Email Auth Error:", error);
-      alert("Login failed: " + error.message);
+      if (error.code === "auth/user-not-found" || error.code === "auth/invalid-credential") {
+        try {
+          await createUserWithEmailAndPassword(auth, email, password);
+          redirectAfterLogin();
+        } catch (signupError) {
+          console.error("Signup Error:", signupError);
+          alert("Authentication failed: " + signupError.message);
+        }
+      } else {
+        console.error("Login Error:", error);
+        alert("Login failed: " + error.message);
+      }
     }
   });
 </script>
