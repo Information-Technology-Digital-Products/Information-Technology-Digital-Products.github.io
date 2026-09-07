@@ -23,11 +23,6 @@
 <body>
 
 
-<!-- Top-Right Auth Widget Target -->
-  <div id="auth-header"></div>
-  <br/>
-
-
 
 <header><br/>
     <div class="pricing-title">HOW<br/>MACHINES<br/>LEARN AND<br/>THINK</div>
@@ -817,15 +812,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<script type="module">
-  import { protectPage, renderAuthHeader } from "/access/access-control.js";
 
-  // Enforce access control for lesson1
-  await protectPage("lesson1", window.location.pathname);
-
-  // Render top-right auth status bar
-  renderAuthHeader("auth-header");
-</script>
 
 
 </body>
