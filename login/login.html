@@ -82,7 +82,7 @@
     <div class="block">
       <p class="message">Enter your purchase email to receive a magic sign-in link.</p>
       <input id="email" type="email" placeholder="Email" />
-      <button id="send-link-btn">Send Sign-In Link</button>
+      <button id="send-link-btn">Log in with Email</button>
     </div>
   </div>
 
@@ -113,14 +113,7 @@
     window.location.href = redirect || "/index.html";
   }
 
-  // 1. Pre-fill email field automatically if provided via URL (Stripe/Paddle redirect)
-  const urlParams = new URLSearchParams(window.location.search);
-  const customerEmail = urlParams.get("email");
-  if (customerEmail) {
-    document.getElementById("email").value = customerEmail;
-  }
-
-  // 2. Handle incoming sign-in link completion
+  // 1. Handle incoming magic link verification
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) {
@@ -133,14 +126,23 @@
           redirectAfterLogin();
         })
         .catch((error) => {
-          alert("Sign-in failed: " + error.message);
+          alert("Login error: " + error.message);
         });
     }
   }
 
-  // 3. Send sign-in link
+  // 2. Auto-fill email from payment redirect query param (Stripe/Paddle)
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentEmail = urlParams.get("email");
+  const emailInput = document.getElementById("email");
+
+  if (paymentEmail) {
+    emailInput.value = paymentEmail;
+  }
+
+  // 3. Send magic link on button click
   document.getElementById("send-link-btn").addEventListener("click", async () => {
-    const email = document.getElementById("email").value.trim();
+    const email = emailInput.value.trim();
     if (!email) {
       alert("Please enter your email");
       return;
@@ -154,9 +156,9 @@
     try {
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
       window.localStorage.setItem("emailForSignIn", email);
-      alert("Sign-in link sent! Check your inbox.");
+      alert("Magic sign-in link sent! Check your email inbox.");
     } catch (error) {
-      alert("Failed to send link: " + error.message);
+      alert("Failed to send sign-in link: " + error.message);
     }
   });
 </script>
