@@ -80,7 +80,7 @@
     <h1>LOG IN</h1>
 
     <div class="block">
-      <p class="message">Enter your purchase email.</p>
+      <p class="message">Enter your purchase email to sign in on this device.</p>
       <input id="email" type="email" placeholder="Email" />
       <button id="send-link-btn">Log in with Email</button>
     </div>
@@ -117,12 +117,10 @@
   const stripeEmail = urlParams.get("email");
   const emailInput = document.getElementById("email");
 
-  // 1. Auto-fill email field from payment URL parameter
   if (stripeEmail) {
     emailInput.value = stripeEmail;
   }
 
-  // 2. Handle incoming verification link click from email inbox
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) {
@@ -144,7 +142,6 @@
     }
   }
 
-  // 3. Trigger magic email link dispatch
   document.getElementById("send-link-btn").addEventListener("click", async () => {
     const email = emailInput.value.trim();
     if (!email) {
