@@ -80,7 +80,7 @@
     <h1>LOG IN</h1>
 
     <div class="block">
-      <p class="message">Enter your purchase email to sign in on this device.</p>
+      <p class="message">Enter your purchase email to receive a log-in link.</p>
       <input id="email" type="email" placeholder="Email" />
       <button id="send-link-btn">Log in with Email</button>
     </div>
@@ -113,14 +113,7 @@
     window.location.href = redirect || "/index.html";
   }
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const stripeEmail = urlParams.get("email");
-  const emailInput = document.getElementById("email");
-
-  if (stripeEmail) {
-    emailInput.value = stripeEmail;
-  }
-
+  // 1. Handle incoming magic link verification click
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) {
@@ -142,7 +135,9 @@
     }
   }
 
+  // 2. Dispatch sign-in link
   document.getElementById("send-link-btn").addEventListener("click", async () => {
+    const emailInput = document.getElementById("email");
     const email = emailInput.value.trim();
     if (!email) {
       alert("Please enter your email");

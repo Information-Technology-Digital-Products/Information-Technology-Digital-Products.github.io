@@ -817,14 +817,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
 <script type="module">
   import { protectPage, renderAuthHeader } from "/access/access-control.js";
 
-  // Check access for Lesson 1
-  protectPage("lesson1", "/lesson1/lesson1.html");
+  // Enforce access control for lesson1
+  await protectPage("lesson1", window.location.pathname);
 
-  // Display user info & logout button
+  // Render top-right auth status bar
   renderAuthHeader("auth-header");
 </script>
 
