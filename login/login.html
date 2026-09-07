@@ -117,12 +117,12 @@
   const stripeEmail = urlParams.get("email");
   const emailInput = document.getElementById("email");
 
-  // 1. Auto-fill email field from Stripe/Paddle redirect parameter
+  // 1. Auto-fill email field from payment URL parameter
   if (stripeEmail) {
     emailInput.value = stripeEmail;
   }
 
-  // 2. Handle incoming verification link click from user's inbox
+  // 2. Handle incoming verification link click from email inbox
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) {
@@ -132,8 +132,9 @@
       signInWithEmailLink(auth, email, window.location.href)
         .then(() => {
           window.localStorage.removeItem("emailForSignIn");
-          const access = JSON.parse(localStorage.getItem("youomni_access") || '{"lesson1": false, "fullCourse": false}');
+          const access = JSON.parse(localStorage.getItem("youomni_access") || '{"lesson1": true, "fullCourse": true}');
           access.fullCourse = true;
+          access.lesson1 = true;
           localStorage.setItem("youomni_access", JSON.stringify(access));
           redirectAfterLogin();
         })
@@ -143,7 +144,7 @@
     }
   }
 
-  // 3. Trigger email sign-in link dispatch
+  // 3. Trigger magic email link dispatch
   document.getElementById("send-link-btn").addEventListener("click", async () => {
     const email = emailInput.value.trim();
     if (!email) {
