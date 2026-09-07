@@ -70,6 +70,18 @@
       text-align: center;
       color: #aaa;
       margin: 0;
+      line-height: 1.4;
+    }
+
+    .status-alert {
+      padding: 10px;
+      border-radius: 8px;
+      background: rgba(74, 144, 226, 0.2);
+      border: 1px solid #4a90e2;
+      color: #6ba4e8;
+      font-size: 13px;
+      text-align: center;
+      display: none;
     }
   </style>
 </head>
@@ -80,6 +92,7 @@
     <h1>LOG IN</h1>
 
     <div class="block">
+      <div id="status-box" class="status-alert"></div>
       <p class="message">Enter your purchase email to receive a magic sign-in link.</p>
       <input id="email" type="email" placeholder="Email" />
       <button id="send-link-btn">Send Sign-In Link</button>
@@ -107,19 +120,45 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
+  const emailInput = document.getElementById("email");
+  const sendBtn = document.getElementById("send-link-btn");
+  const statusBox = document.getElementById("status-box");
+
+  function showStatus(text) {
+    statusBox.textContent = text;
+    statusBox.style.display = "block";
+  }
+
   function redirectAfterLogin() {
     const params = new URLSearchParams(window.location.search);
     const redirect = params.get("redirect");
     window.location.href = redirect || "/index.html";
   }
 
-  // 1. Check if user clicked the magic link inside their email
+  // Core function to send the magic email link
+  async function sendMagicLink(email) {
+    const actionCodeSettings = {
+      url: "https://youomni.github.io/login/login.html",
+      handleCodeInApp: true
+    };
+
+    try {
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      showStatus("Magic sign-in link sent to " + email + "! Check your inbox.");
+    } catch (error) {
+      alert("Failed to send magic link: " + error.message);
+    }
+  }
+
+  // 1. Handle incoming magic link click from email inbox
   if (isSignInWithEmailLink(auth, window.location.href)) {
     let email = window.localStorage.getItem("emailForSignIn");
     if (!email) {
-      email = window.prompt("Please confirm your email address to log in:");
+      email = window.prompt("Please confirm your email address to complete login:");
     }
     if (email) {
+      showStatus("Signing you in...");
       signInWithEmailLink(auth, email, window.location.href)
         .then(() => {
           window.localStorage.removeItem("emailForSignIn");
@@ -131,33 +170,23 @@
     }
   }
 
-  // 2. Auto-fill email if redirected from Stripe Payment Link
+  // 2. Auto-detect email from URL (e.g. from Stripe redirect) and send link automatically
   const urlParams = new URLSearchParams(window.location.search);
   const stripeEmail = urlParams.get("email");
+
   if (stripeEmail) {
-    document.getElementById("email").value = stripeEmail;
+    emailInput.value = stripeEmail;
+    sendMagicLink(stripeEmail);
   }
 
-  // 3. Send Magic Link when button is clicked
-  document.getElementById("send-link-btn").addEventListener("click", async () => {
-    const email = document.getElementById("email").value.trim();
+  // 3. Manual trigger when clicking the button
+  sendBtn.addEventListener("click", () => {
+    const email = emailInput.value.trim();
     if (!email) {
       alert("Please enter your email");
       return;
     }
-
-    const actionCodeSettings = {
-      url: "https://youomni.github.io/login/login.html",
-      handleCodeInApp: true
-    };
-
-    try {
-      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
-      window.localStorage.setItem("emailForSignIn", email);
-      alert("Sign-in link sent! Check your inbox.");
-    } catch (error) {
-      alert("Failed to send link: " + error.message);
-    }
+    sendMagicLink(email);
   });
 </script>
 
