@@ -61,16 +61,15 @@
       border: none;
       cursor: pointer;
       font-weight: bold;
-    }
-
-    .primary {
       background: #4a90e2;
       color: white;
     }
 
-    .google {
-      background: white;
-      color: black;
+    .message {
+      font-size: 14px;
+      text-align: center;
+      color: #aaa;
+      margin: 0;
     }
   </style>
 </head>
@@ -81,15 +80,9 @@
     <h1>LOG IN</h1>
 
     <div class="block">
-      <button id="google-btn" class="google">Log in with Google</button>
-    </div>
-
-    <h1>or</h1>
-
-    <div class="block">
+      <p class="message">Enter your purchase email to receive a magic sign-in link.</p>
       <input id="email" type="email" placeholder="Email" />
-      <input id="password" type="password" placeholder="Password" />
-      <button id="email-btn" class="primary">Log in with Email</button>
+      <button id="send-link-btn">Send Sign-In Link</button>
     </div>
   </div>
 
@@ -97,10 +90,9 @@
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { 
     getAuth, 
-    signInWithPopup, 
-    GoogleAuthProvider,
-    signInWithEmailAndPassword,
-    createUserWithEmailAndPassword
+    sendSignInLinkToEmail, 
+    isSignInWithEmailLink, 
+    signInWithEmailLink 
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -114,7 +106,6 @@
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
 
   function redirectAfterLogin() {
     const params = new URLSearchParams(window.location.search);
@@ -122,60 +113,50 @@
     window.location.href = redirect || "/index.html";
   }
 
-  /*
-  // Google Sign-In
-  document.getElementById("google-btn").addEventListener("click", async () => {
-    try {
-      await signInWithPopup(auth, provider);
-      redirectAfterLogin();
-    } catch (error) {
-      console.error("Google Auth Error:", error);
-      alert("Google login failed: " + error.message);
+  // 1. Check if user clicked the magic link inside their email
+  if (isSignInWithEmailLink(auth, window.location.href)) {
+    let email = window.localStorage.getItem("emailForSignIn");
+    if (!email) {
+      email = window.prompt("Please confirm your email address to log in:");
     }
-  });
-  */
+    if (email) {
+      signInWithEmailLink(auth, email, window.location.href)
+        .then(() => {
+          window.localStorage.removeItem("emailForSignIn");
+          redirectAfterLogin();
+        })
+        .catch((error) => {
+          alert("Login error: " + error.message);
+        });
+    }
+  }
 
-  // Email + Password Login with Automatic Account Creation Fallback
-  document.getElementById("email-btn").addEventListener("click", async () => {
+  // 2. Auto-fill email if redirected from Stripe Payment Link
+  const urlParams = new URLSearchParams(window.location.search);
+  const stripeEmail = urlParams.get("email");
+  if (stripeEmail) {
+    document.getElementById("email").value = stripeEmail;
+  }
+
+  // 3. Send Magic Link when button is clicked
+  document.getElementById("send-link-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-
-    if (!email || !password) {
-      alert("Enter email and password");
+    if (!email) {
+      alert("Please enter your email");
       return;
     }
 
+    const actionCodeSettings = {
+      url: "https://youomni.github.io/login/login.html",
+      handleCodeInApp: true
+    };
+
     try {
-      // 1. Attempt Sign-In
-      await signInWithEmailAndPassword(auth, email, password);
-      redirectAfterLogin();
+      await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+      window.localStorage.setItem("emailForSignIn", email);
+      alert("Sign-in link sent! Check your inbox.");
     } catch (error) {
-      // 2. If credentials do not match or user is not found, attempt registration
-      if (
-        error.code === "auth/user-not-found" || 
-        error.code === "auth/invalid-credential" ||
-        error.code === "auth/wrong-password"
-      ) {
-        try {
-          await createUserWithEmailAndPassword(auth, email, password);
-          redirectAfterLogin();
-        } catch (signupError) {
-          if (signupError.code === "auth/email-already-in-use") {
-            try {
-              await signInWithEmailAndPassword(auth, email, password);
-              redirectAfterLogin();
-            } catch (fallbackError) {
-              alert("Authentication failed: Incorrect password for existing account.");
-            }
-          } else {
-            console.error("Signup Error:", signupError);
-            alert("Authentication failed: " + signupError.message);
-          }
-        }
-      } else {
-        console.error("Login Error:", error);
-        alert("Login failed: " + error.message);
-      }
+      alert("Failed to send link: " + error.message);
     }
   });
 </script>
