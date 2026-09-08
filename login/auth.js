@@ -52,11 +52,28 @@ export async function VERIFY_ACCESS(USER_IDENTIFIER) {
   }
 }
 
-// Send OTP simulation
+// Send OTP simulation 
 export async function SEND_OTP_CODE(EMAIL_ADDRESS) {
   try {
-    console.log("OTP code sent to:", EMAIL_ADDRESS);
-    return true;
+    // Generate a random 6-digit code
+    const GENERATED_OTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Store generated OTP in memory or local storage for verification step
+    sessionStorage.setItem("pending_otp", GENERATED_OTP);
+
+    const RESPONSE = await fetch('https://your-vercel-app-name.vercel.app/api/send-otp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email: EMAIL_ADDRESS,
+        otpCode: GENERATED_OTP
+      })
+    });
+
+    const RESULT = await RESPONSE.json();
+    return RESULT.success || false;
   } catch (ERROR) {
     console.error("Error sending OTP:", ERROR);
     return false;
