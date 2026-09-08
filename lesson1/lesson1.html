@@ -22,6 +22,20 @@
 
 <body>
 
+  <header style="display: flex; justify-content: flex-end; padding: 15px 20px; background-color: #f8f9fa;">
+  <div id="auth-container">
+    <button id="login-btn" onclick="window.location.href='/login.html'" style="display: none; padding: 8px 16px; cursor: pointer;">
+      Log In
+    </button>
+    <div id="user-info" style="display: none; align-items: center; gap: 10px;">
+      <span id="user-email"></span>
+      <button id="logout-btn" onclick="handleLogout()" style="padding: 8px 16px; cursor: pointer;">
+        Log Out
+      </button>
+    </div>
+  </div>
+</header>
+
 
 
 <header><br/>
