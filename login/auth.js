@@ -61,7 +61,7 @@ export async function SEND_OTP_CODE(EMAIL_ADDRESS) {
     // Store generated OTP in memory or local storage for verification step
     sessionStorage.setItem("pending_otp", GENERATED_OTP);
 
-    const RESPONSE = await fetch('https://your-vercel-app-name.vercel.app/api/send-otp', {
+    const RESPONSE = await fetch('https://youomni-github-io.vercel.app/api/send-otp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
