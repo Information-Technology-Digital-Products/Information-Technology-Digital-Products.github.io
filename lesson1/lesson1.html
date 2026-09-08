@@ -22,17 +22,10 @@
 
 <body>
 
-  <header style="display: flex; justify-content: flex-end; padding: 15px 20px; background-color: #f8f9fa;">
-  <div id="auth-container">
-    <button id="login-btn" onclick="window.location.href='/login.html'" style="display: none; padding: 8px 16px; cursor: pointer;">
-      Log In
-    </button>
-    <div id="user-info" style="display: none; align-items: center; gap: 10px;">
-      <span id="user-email"></span>
-      <button id="logout-btn" onclick="handleLogout()" style="padding: 8px 16px; cursor: pointer;">
-        Log Out
-      </button>
-    </div>
+<!-- Part 1: Top Header Auth Container -->
+<header style="display: flex; justify-content: flex-end; padding: 15px;">
+  <div id="auth-header-container">
+    <!-- Login / Logout button injects here dynamically -->
   </div>
 </header>
 
@@ -828,6 +821,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
+
+<!-- Part 2: Auth Guard Script -->
+<script type="module">
+  import { INIT_LESSON_GUARD } from "/login/auth.js";
+
+  // Enforces access and updates the top-right button
+  // Pass "lesson_1" or "full_course" depending on the lesson requirements
+  INIT_LESSON_GUARD("lesson_1");
+</script>
 
 </body>
 </html>
