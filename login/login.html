@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Login & Access</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <h2>Course Access</h2>
+    
+    <div id="status-message" class="status-message"></div>
+
+    <form id="otp-request-form">
+      <p>Enter the email address used during purchase to receive a access code:</p>
+      <input type="email" id="user-email" placeholder="your-email@example.com" required />
+      <button type="submit" id="send-code-btn">Send Access Code</button>
+    </form>
+
+    <form id="otp-verify-form" class="hidden">
+      <p>Enter the 6-digit code sent to your email:</p>
+      <input type="text" id="otp-code" placeholder="123456" maxlength="6" required />
+      <button type="submit" id="verify-code-btn">Verify & Enter</button>
+    </form>
+  </div>
+
+  <script type="module">
+    import { HANDLE_ZERO_CLICK_LOGIN, SEND_OTP_CODE, VERIFY_OTP_CODE } from "./auth.js";
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const URL_PARAMS = new URLSearchParams(window.location.search);
+      const TOKEN = URL_PARAMS.get("token");
+      const EMAIL = URL_PARAMS.get("email");
+      const TIER = URL_PARAMS.get("tier");
+
+      if (EMAIL && TIER) {
+        const STATUS = document.getElementById("status-message");
+        STATUS.textContent = "Authenticating your purchase...";
+        const SUCCESS = await HANDLE_ZERO_CLICK_LOGIN(TOKEN, EMAIL, TIER);
+        if (SUCCESS) {
+          STATUS.textContent = "Success! Redirecting to your lessons...";
+          setTimeout(() => {
+            window.location.href = TIER === "full_course" ? "/lessons/course.html" : "/lessons/lesson-1.html";
+          }, 1000);
+          return;
+        }
+      }
+    });
+
+    const REQUEST_FORM = document.getElementById("otp-request-form");
+    const VERIFY_FORM = document.getElementById("otp-verify-form");
+    const STATUS = document.getElementById("status-message");
+
+    REQUEST_FORM.addEventListener("submit", async (EVENT) => {
+      EVENT.preventDefault();
+      const EMAIL = document.getElementById("user-email").value;
+      STATUS.textContent = "Sending code...";
+      
+      const OK = await SEND_OTP_CODE(EMAIL);
+      if (OK) {
+        REQUEST_FORM.classList.add("hidden");
+        VERIFY_FORM.classList.remove("hidden");
+        STATUS.textContent = "Code sent! Check your inbox.";
+      } else {
+        STATUS.textContent = "Failed to send code. Please try again.";
+      }
+    });
+
+    VERIFY_FORM.addEventListener("submit", async (EVENT) => {
+      EVENT.preventDefault();
+      const EMAIL = document.getElementById("user-email").value;
+      const CODE = document.getElementById("otp-code").value;
+      STATUS.textContent = "Verifying...";
+
+      const RESULT = await VERIFY_OTP_CODE(EMAIL, CODE);
+      if (RESULT.success) {
+        STATUS.textContent = "Access granted! Loading course...";
+        setTimeout(() => {
+          window.location.href = RESULT.tier === "full_course" ? "/lessons/course.html" : "/lessons/lesson-1.html";
+        }, 1000);
+      } else {
+        STATUS.textContent = RESULT.error || "Invalid code.";
+      }
+    });
+  </script>
+</body>
+</html>
