@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lessons</title>
     <style>
+        :root {
+            /* Adjust this value to control vertical distance between rows */
+            --row-padding: 0px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             text-align: center;
@@ -25,7 +30,10 @@
         }
 
         td {
-            padding: 4px 12px;
+            padding-top: var(--row-padding);
+            padding-bottom: var(--row-padding);
+            padding-left: 12px;
+            padding-right: 12px;
         }
 
         a {
