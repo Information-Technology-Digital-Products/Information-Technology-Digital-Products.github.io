@@ -97,7 +97,7 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
 }
 
 // Guard protected pages and render the top-right header button
-export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson_1") {
+export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   onAuthStateChanged(AUTH, async (CURRENT_USER) => {
     const CONTAINER = document.getElementById("auth-header-container");
 
