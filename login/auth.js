@@ -28,8 +28,12 @@ export async function HANDLE_ZERO_CLICK_LOGIN(PAYMENT_TOKEN, USER_EMAIL, ACCESS_
       await updateDoc(USER_REF, { access_tier: "full_course" });
     }
 
+    localStorage.setItem("user_email", USER_EMAIL);
+
     if (PAYMENT_TOKEN) {
       await signInWithCustomToken(AUTH, PAYMENT_TOKEN);
+    } else {
+      await signInAnonymously(AUTH);
     }
     return true;
   } catch (ERROR) {
@@ -66,7 +70,7 @@ export async function SEND_OTP_CODE(EMAIL_ADDRESS) {
     // Generate a random 6-digit code
     const GENERATED_OTP = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // Store generated OTP in memory or local storage for verification step
+    // Store generated OTP in memory for verification step
     sessionStorage.setItem("pending_otp", GENERATED_OTP);
 
     const RESPONSE = await fetch('https://youomni-github-io.vercel.app/api/send-otp', {
@@ -95,10 +99,10 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
     const USER_SNAP = await getDoc(USER_REF);
     
     if (USER_SNAP.exists()) {
-      // Store verified email in sessionStorage for fallback checks
-      sessionStorage.setItem("user_email", EMAIL_ADDRESS);
+      // Store verified email in localStorage to persist across navigation
+      localStorage.setItem("user_email", EMAIL_ADDRESS);
       
-      // Sign into Firebase Auth session so onAuthStateChanged detects a user
+      // Sign into Firebase Auth session
       if (!AUTH.currentUser) {
         await signInAnonymously(AUTH);
       }
@@ -116,26 +120,25 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
 export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   onAuthStateChanged(AUTH, async (CURRENT_USER) => {
     const CONTAINER = document.getElementById("auth-header-container");
-    const STORED_EMAIL = sessionStorage.getItem("user_email");
+    const STORED_EMAIL = localStorage.getItem("user_email");
 
+    // Check if user has no session AND no saved email
     if (!CURRENT_USER && !STORED_EMAIL) {
-      // User is not logged in
       if (CONTAINER) {
         CONTAINER.innerHTML = `
           <a href="/login/login.html" style="padding: 8px 16px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">Login</a>
         `;
       }
-      // Redirect unauthorized visitors to login page
       window.location.href = "/login/login.html";
       return;
     }
 
-    // Determine identifiers to check in Firestore
-    const USER_UID = CURRENT_USER ? CURRENT_USER.uid : null;
+    // Use current user's UID/Email or fallback to stored email from login
+    const USER_IDENTIFIER = CURRENT_USER ? CURRENT_USER.uid : STORED_EMAIL;
     const USER_EMAIL = CURRENT_USER?.email || STORED_EMAIL;
 
-    // Check user access in Firestore using UID and Email fallback
-    const USER_TIER = await VERIFY_ACCESS(USER_UID || USER_EMAIL, USER_EMAIL);
+    // Verify access tier in Firestore
+    const USER_TIER = await VERIFY_ACCESS(USER_IDENTIFIER, USER_EMAIL);
     const HAS_ACCESS = USER_TIER === "full_course" || USER_TIER === REQUIRED_TIER;
 
     if (!HAS_ACCESS) {
@@ -144,7 +147,7 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       return;
     }
 
-    // User is authorized — render user info and Logout button
+    // Render user header info and Logout button
     if (CONTAINER) {
       CONTAINER.innerHTML = `
         <div style="display: flex; align-items: center; gap: 10px;">
@@ -154,7 +157,8 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       `;
 
       document.getElementById("auth-logout-btn").addEventListener("click", async () => {
-        sessionStorage.removeItem("user_email");
+        localStorage.removeItem("user_email");
+        sessionStorage.clear();
         await signOut(AUTH);
         window.location.href = "/login/login.html";
       });
