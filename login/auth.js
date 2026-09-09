@@ -1,6 +1,7 @@
 import { AUTH, DB } from "./firebase-config.js";
 import { 
   signInWithCustomToken, 
+  signInAnonymously,
   onAuthStateChanged, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -94,6 +95,14 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
     const USER_SNAP = await getDoc(USER_REF);
     
     if (USER_SNAP.exists()) {
+      // Store verified email in sessionStorage for fallback checks
+      sessionStorage.setItem("user_email", EMAIL_ADDRESS);
+      
+      // Sign into Firebase Auth session so onAuthStateChanged detects a user
+      if (!AUTH.currentUser) {
+        await signInAnonymously(AUTH);
+      }
+
       return { success: true, tier: USER_SNAP.data().access_tier || USER_SNAP.data().access_LEVEL };
     }
     return { success: false, error: "No purchase found for this email." };
@@ -107,8 +116,9 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
 export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   onAuthStateChanged(AUTH, async (CURRENT_USER) => {
     const CONTAINER = document.getElementById("auth-header-container");
+    const STORED_EMAIL = sessionStorage.getItem("user_email");
 
-    if (!CURRENT_USER) {
+    if (!CURRENT_USER && !STORED_EMAIL) {
       // User is not logged in
       if (CONTAINER) {
         CONTAINER.innerHTML = `
@@ -120,8 +130,12 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       return;
     }
 
+    // Determine identifiers to check in Firestore
+    const USER_UID = CURRENT_USER ? CURRENT_USER.uid : null;
+    const USER_EMAIL = CURRENT_USER?.email || STORED_EMAIL;
+
     // Check user access in Firestore using UID and Email fallback
-    const USER_TIER = await VERIFY_ACCESS(CURRENT_USER.uid, CURRENT_USER.email);
+    const USER_TIER = await VERIFY_ACCESS(USER_UID || USER_EMAIL, USER_EMAIL);
     const HAS_ACCESS = USER_TIER === "full_course" || USER_TIER === REQUIRED_TIER;
 
     if (!HAS_ACCESS) {
@@ -134,12 +148,13 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
     if (CONTAINER) {
       CONTAINER.innerHTML = `
         <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-size: 14px;">${CURRENT_USER.email || "Logged in"}</span>
+          <span style="font-size: 14px;">${USER_EMAIL || "Logged in"}</span>
           <button id="auth-logout-btn" style="padding: 8px 16px; background: #dc3545; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Logout</button>
         </div>
       `;
 
       document.getElementById("auth-logout-btn").addEventListener("click", async () => {
+        sessionStorage.removeItem("user_email");
         await signOut(AUTH);
         window.location.href = "/login/login.html";
       });
