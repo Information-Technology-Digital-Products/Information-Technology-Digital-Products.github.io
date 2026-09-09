@@ -7,15 +7,20 @@ const FIREBASE_CONFIG = {
   projectId: "YOUR_PROJECT_ID"
 };
 
-const APP = initializeApp(FIREBASE_CONFIG);
-const DB = getFirestore(APP);
+let DB = null;
+try {
+  const APP = initializeApp(FIREBASE_CONFIG);
+  DB = getFirestore(APP);
+} catch (E) {
+  console.warn("Firebase initialization skipped (placeholder config).");
+}
 
 export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   const EMAIL = localStorage.getItem("user_email");
   const CACHED_TIER = localStorage.getItem("access_tier");
   const AUTH_CONTAINER = document.getElementById("auth-header-container");
 
-  // Render user status and Logout button in header
+  // Inject user email and Logout button into header
   if (AUTH_CONTAINER) {
     if (EMAIL) {
       AUTH_CONTAINER.innerHTML = `
@@ -34,30 +39,32 @@ export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
     }
   }
 
-  // Redirect if user identity is missing
+  // Redirect if no email is saved in session
   if (!EMAIL) {
     window.location.href = "/login/login.html";
     return;
   }
 
-  // Try querying Firestore; fall back to localStorage on permission/connection errors
-  try {
-    const USER_SNAP = await getDoc(doc(DB, "users", EMAIL));
-    if (USER_SNAP.exists()) {
-      const DATA = USER_SNAP.data();
-      const RAW_TIER = DATA.access_tier || DATA.access_LEVEL || DATA.access_level || "";
-      const TIER = RAW_TIER.toLowerCase().replace(/_/g, "");
+  // Check Firestore permissions if configured, otherwise rely on local cached tier
+  if (DB) {
+    try {
+      const USER_SNAP = await getDoc(doc(DB, "users", EMAIL));
+      if (USER_SNAP.exists()) {
+        const DATA = USER_SNAP.data();
+        const RAW_TIER = DATA.access_tier || DATA.access_LEVEL || DATA.access_level || "";
+        const TIER = RAW_TIER.toLowerCase().replace(/_/g, "");
 
-      if (TIER !== REQUIRED_TIER && TIER !== "fullcourse") {
-        window.location.href = "/login/login.html";
+        if (TIER !== REQUIRED_TIER && TIER !== "fullcourse") {
+          window.location.href = "/login/login.html";
+          return;
+        }
       }
-      return;
+    } catch (E) {
+      console.warn("Firestore lookup bypassed, utilizing local session tier.");
     }
-  } catch (ERR) {
-    console.warn("Firestore unreachable, evaluating local access tier:", ERR.message);
   }
 
-  // Evaluate offline / local session fallback
+  // Local tier validation fallback
   if (CACHED_TIER !== REQUIRED_TIER && CACHED_TIER !== "fullcourse") {
     window.location.href = "/login/login.html";
   }
