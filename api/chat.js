@@ -16,6 +16,5 @@ export default async function handler(REQ, RES) {
     return;
   }
 
-  // Pass API key directly as the token
   RES.status(200).json({ token: API_KEY });
 }
