@@ -1,7 +1,6 @@
 import { AUTH, DB } from "./firebase-config.js";
 import { 
   signInWithCustomToken, 
-  signInAnonymously,
   onAuthStateChanged, 
   signOut 
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -15,12 +14,13 @@ import {
 // Handle silent authentication upon post-payment redirect
 export async function HANDLE_ZERO_CLICK_LOGIN(PAYMENT_TOKEN, USER_EMAIL, ACCESS_TIER) {
   try {
-    const USER_REF = doc(DB, "users", USER_EMAIL);
+    const NORMALIZED_EMAIL = USER_EMAIL.trim().toLowerCase();
+    const USER_REF = doc(DB, "users", NORMALIZED_EMAIL);
     const USER_SNAP = await getDoc(USER_REF);
 
     if (!USER_SNAP.exists()) {
       await setDoc(USER_REF, {
-        email: USER_EMAIL,
+        email: NORMALIZED_EMAIL,
         access_tier: ACCESS_TIER,
         created_at: new Date().toISOString()
       });
@@ -28,12 +28,10 @@ export async function HANDLE_ZERO_CLICK_LOGIN(PAYMENT_TOKEN, USER_EMAIL, ACCESS_
       await updateDoc(USER_REF, { access_tier: "full_course" });
     }
 
-    localStorage.setItem("user_email", USER_EMAIL);
+    localStorage.setItem("user_email", NORMALIZED_EMAIL);
 
     if (PAYMENT_TOKEN) {
       await signInWithCustomToken(AUTH, PAYMENT_TOKEN);
-    } else {
-      await signInAnonymously(AUTH);
     }
     return true;
   } catch (ERROR) {
@@ -45,17 +43,23 @@ export async function HANDLE_ZERO_CLICK_LOGIN(PAYMENT_TOKEN, USER_EMAIL, ACCESS_
 // Verify a user's access tier from Firestore using UID or Email
 export async function VERIFY_ACCESS(USER_IDENTIFIER, USER_EMAIL = null) {
   try {
-    let USER_REF = doc(DB, "users", USER_IDENTIFIER);
-    let USER_SNAP = await getDoc(USER_REF);
+    let USER_SNAP = null;
 
-    // Fallback to searching by email if UID document is not found
-    if (!USER_SNAP.exists() && USER_EMAIL) {
-      USER_REF = doc(DB, "users", USER_EMAIL);
+    if (USER_IDENTIFIER) {
+      const USER_REF = doc(DB, "users", USER_IDENTIFIER);
       USER_SNAP = await getDoc(USER_REF);
     }
 
-    if (USER_SNAP.exists()) {
-      return USER_SNAP.data().access_tier || USER_SNAP.data().access_LEVEL || "none";
+    // Fallback to searching by email if UID document is not found
+    if ((!USER_SNAP || !USER_SNAP.exists()) && USER_EMAIL) {
+      const EMAIL_REF = doc(DB, "users", USER_EMAIL.trim().toLowerCase());
+      USER_SNAP = await getDoc(EMAIL_REF);
+    }
+
+    if (USER_SNAP && USER_SNAP.exists()) {
+      const RAW_TIER = USER_SNAP.data().access_tier || USER_SNAP.data().access_LEVEL || "none";
+      // Normalize tier string (e.g. "lesson_1" -> "lesson1")
+      return RAW_TIER.toString().toLowerCase().replace(/_/g, "");
     }
     return "none";
   } catch (ERROR) {
@@ -67,10 +71,7 @@ export async function VERIFY_ACCESS(USER_IDENTIFIER, USER_EMAIL = null) {
 // Send OTP simulation 
 export async function SEND_OTP_CODE(EMAIL_ADDRESS) {
   try {
-    // Generate a random 6-digit code
     const GENERATED_OTP = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Store generated OTP in memory for verification step
     sessionStorage.setItem("pending_otp", GENERATED_OTP);
 
     const RESPONSE = await fetch('https://youomni-github-io.vercel.app/api/send-otp', {
@@ -79,7 +80,7 @@ export async function SEND_OTP_CODE(EMAIL_ADDRESS) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email: EMAIL_ADDRESS,
+        email: EMAIL_ADDRESS.trim().toLowerCase(),
         otpCode: GENERATED_OTP
       })
     });
@@ -95,19 +96,16 @@ export async function SEND_OTP_CODE(EMAIL_ADDRESS) {
 // Verify OTP simulation
 export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
   try {
-    const USER_REF = doc(DB, "users", EMAIL_ADDRESS);
+    const NORMALIZED_EMAIL = EMAIL_ADDRESS.trim().toLowerCase();
+    const USER_REF = doc(DB, "users", NORMALIZED_EMAIL);
     const USER_SNAP = await getDoc(USER_REF);
     
     if (USER_SNAP.exists()) {
-      // Store verified email in localStorage to persist across navigation
-      localStorage.setItem("user_email", EMAIL_ADDRESS);
-      
-      // Sign into Firebase Auth session
-      if (!AUTH.currentUser) {
-        await signInAnonymously(AUTH);
-      }
-
-      return { success: true, tier: USER_SNAP.data().access_tier || USER_SNAP.data().access_LEVEL };
+      localStorage.setItem("user_email", NORMALIZED_EMAIL);
+      return { 
+        success: true, 
+        tier: USER_SNAP.data().access_tier || USER_SNAP.data().access_LEVEL 
+      };
     }
     return { success: false, error: "No purchase found for this email." };
   } catch (ERROR) {
@@ -118,11 +116,12 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
 
 // Guard protected pages and render the top-right header button
 export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
+  const NORMALIZED_REQUIRED = REQUIRED_TIER.toString().toLowerCase().replace(/_/g, "");
+
   onAuthStateChanged(AUTH, async (CURRENT_USER) => {
     const CONTAINER = document.getElementById("auth-header-container");
     const STORED_EMAIL = localStorage.getItem("user_email");
 
-    // Check if user has no session AND no saved email
     if (!CURRENT_USER && !STORED_EMAIL) {
       if (CONTAINER) {
         CONTAINER.innerHTML = `
@@ -133,13 +132,12 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       return;
     }
 
-    // Use current user's UID/Email or fallback to stored email from login
-    const USER_IDENTIFIER = CURRENT_USER ? CURRENT_USER.uid : STORED_EMAIL;
+    const USER_IDENTIFIER = CURRENT_USER ? CURRENT_USER.uid : null;
     const USER_EMAIL = CURRENT_USER?.email || STORED_EMAIL;
 
-    // Verify access tier in Firestore
     const USER_TIER = await VERIFY_ACCESS(USER_IDENTIFIER, USER_EMAIL);
-    const HAS_ACCESS = USER_TIER === "full_course" || USER_TIER === REQUIRED_TIER;
+
+    const HAS_ACCESS = USER_TIER === "fullcourse" || USER_TIER === NORMALIZED_REQUIRED;
 
     if (!HAS_ACCESS) {
       alert("Access denied. Please purchase access to view this lesson.");
@@ -147,7 +145,6 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       return;
     }
 
-    // Render user header info and Logout button
     if (CONTAINER) {
       CONTAINER.innerHTML = `
         <div style="display: flex; align-items: center; gap: 10px;">
