@@ -7,7 +7,7 @@
     <style>
         :root {
             /* Adjust this value to control vertical distance between rows */
-            --row-padding: 0px;
+            --row-padding: 4px;
         }
 
         body {
@@ -15,12 +15,13 @@
             text-align: center;
             padding: 20px;
             background-color: #f9f9f9;
+            color: #333;
         }
 
         h1 {
             margin-top: 5px;
             margin-bottom: 20px;
-            color: #333;
+            color: #222;
         }
 
         table {
@@ -29,17 +30,23 @@
             text-align: left;
         }
 
+        tr:hover {
+            background-color: #f0f4f8;
+        }
+
         td {
-            padding-top: var(--row-padding);
-            padding-bottom: var(--row-padding);
-            padding-left: 12px;
-            padding-right: 12px;
+            padding: var(--row-padding) 12px;
+        }
+
+        td.desc {
+            color: #555;
         }
 
         a {
             text-decoration: none;
             color: #0066cc;
             font-size: 1.1rem;
+            white-space: nowrap;
         }
 
         a:hover {
@@ -55,83 +62,83 @@
     <table>
         <tr>
             <td><a href="../lesson1/lesson1.html">Lesson 1</a></td>
-            <td><strong>Our First Machine Brain</strong> — also <strong>CHANGE RULE</strong> and <strong>ERROR</strong></td>
+            <td class="desc"><strong>Our First Machine Brain</strong> — also <strong>CHAIN RULE</strong> and <strong>ERROR</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson2/lesson2.html">Lesson 2</a></td>
-            <td><strong>INFLUENCE</strong> — also <strong>CHAIN RULE</strong></td>
+            <td class="desc"><strong>INFLUENCE</strong> — also <strong>CHAIN RULE</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson3/lesson3.html">Lesson 3</a></td>
-            <td><strong>PACE</strong></td>
+            <td class="desc"><strong>PACE</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson4/lesson4.html">Lesson 4</a></td>
-            <td><strong>BIAS</strong></td>
+            <td class="desc"><strong>BIAS</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson5/lesson5.html">Lesson 5</a></td>
-            <td><strong>SQUEEZE</strong>  — also <strong>TOKENS</strong></td>
+            <td class="desc"><strong>SQUEEZE</strong> — also <strong>TOKENS</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson6/lesson6.html">Lesson 6</a></td>
-            <td><strong>RELU</strong></td>
+            <td class="desc"><strong>RELU</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson7/lesson7.html">Lesson 7</a></td>
-            <td><strong>DICT</strong> — also <strong>PYTORCH</strong></td>
+            <td class="desc"><strong>DICT</strong> — also <strong>PYTORCH</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson8/lesson8.html">Lesson 8</a></td>
-            <td><strong>LEARNABLE INPUTS</strong></td>
+            <td class="desc"><strong>LEARNABLE INPUTS</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson9/lesson9.html">Lesson 9</a></td>
-            <td><strong>TRANSFORNER BLOCKS</strong></td>
+            <td class="desc"><strong>TRANSFORMER BLOCKS</strong></td>
         </tr>
         <tr>
             <td><a href="../lesson10/lesson10.html">Lesson 10</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson11/lesson11.html">Lesson 11</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson12/lesson12.html">Lesson 12</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson13/lesson13.html">Lesson 13</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson14/lesson14.html">Lesson 14</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson15/lesson15.html">Lesson 15</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson16/lesson16.html">Lesson 16</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson17/lesson17.html">Lesson 17</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson18/lesson18.html">Lesson 18</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson19/lesson19.html">Lesson 19</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
         <tr>
             <td><a href="../lesson20/lesson20.html">Lesson 20</a></td>
-            <td>Topic Name</td>
+            <td class="desc">Topic Name</td>
         </tr>
     </table>
 
