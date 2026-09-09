@@ -20,8 +20,6 @@ var SCHEDULED_SOURCES = [];
 var OUTPUT_VOLUME = 2.0;
 
 const SYSTEM_INSTRUCTION_TEXT = `
-
-
 === KNOWLEDGE BASE START ===
 
 HOW
@@ -358,13 +356,7 @@ function prefetchToken() {
   if (TOKEN_FETCH_PROMISE) return TOKEN_FETCH_PROMISE;
   
   TOKEN_FETCH_PROMISE = fetch(VERCEL_TOKEN_URL)
-    .then(async (RESP) => {
-      if (!RESP.ok) {
-        const ERR_TEXT = await RESP.text();
-        throw new Error(`Server returned status ${RESP.status}: ${ERR_TEXT.substring(0, 100)}`);
-      }
-      return RESP.json();
-    })
+    .then((RESP) => RESP.json())
     .then((DATA) => {
       if (DATA.token) {
         CACHED_TOKEN = DATA.token;
@@ -401,8 +393,8 @@ async function startTalking() {
     CACHED_TOKEN = null;
     TOKEN_FETCH_PROMISE = null;
 
-    const WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContent?key=${TOKEN}`;
-    SOCKET = new WebSocket(WS_URL);
+    const GEMINI_WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=${TOKEN}`;
+    SOCKET = new WebSocket(GEMINI_WS_URL);
 
     SOCKET.onopen = () => {
       console.log("WebSocket connected to Gemini");
