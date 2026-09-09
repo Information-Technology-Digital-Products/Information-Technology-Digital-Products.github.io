@@ -1,7 +1,5 @@
-import { GoogleGenAI } from "@google/genai";
-
 export default async function handler(REQ, RES) {
-  // Enable CORS for your GitHub Pages origin
+  // Enable CORS
   RES.setHeader("Access-Control-Allow-Origin", "*");
   RES.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   RES.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -14,30 +12,44 @@ export default async function handler(REQ, RES) {
   const API_KEY = process.env.GOOGLE_DOC;
 
   if (!API_KEY) {
-    RES.status(500).json({ error: "Missing process.env.GOOGLE_DOC API key" });
+    RES.status(500).json({ error: "Missing GOOGLE_DOC API key in environment variables." });
     return;
   }
 
   try {
-    const AI = new GoogleGenAI({ apiKey: API_KEY });
-
-    // Set expiration time to 5 minutes (300 seconds)
     const EXPIRE_TIME = new Date(Date.now() + 300 * 1000).toISOString();
 
-    const TOKEN_RESPONSE = await AI.authTokens.create({
-      config: {
-        uses: 1,
-        expireTime: EXPIRE_TIME,
-        targetModel: "models/gemini-3.1-flash-live-preview",
-        allowedMethods: ["bidiGenerateContent"],
-      },
-    });
+    const RESPONSE = await fetch(
+      `https://generativelanguage.googleapis.com/v1alpha/authTokens?key=${API_KEY}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          config: {
+            uses: 1,
+            expireTime: EXPIRE_TIME,
+            targetModel: "models/gemini-3.1-flash-live-preview",
+            allowedMethods: ["bidiGenerateContent"]
+          }
+        })
+      }
+    );
 
-    const TOKEN_VALUE = TOKEN_RESPONSE.name || TOKEN_RESPONSE.value;
+    const DATA = await RESPONSE.json();
+
+    if (!RESPONSE.ok) {
+      console.error("Gemini API Error:", DATA);
+      RES.status(RESPONSE.status).json({ error: DATA.error?.message || "Failed to create token" });
+      return;
+    }
+
+    const TOKEN_VALUE = DATA.name || DATA.value || DATA.token;
 
     RES.status(200).json({ token: TOKEN_VALUE });
   } catch (ERR) {
     console.error("Token generation error:", ERR);
-    RES.status(500).json({ error: ERR.message || "Failed to generate ephemeral token" });
+    RES.status(500).json({ error: ERR.message || "Failed to generate token" });
   }
 }
