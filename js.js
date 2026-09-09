@@ -401,7 +401,7 @@ async function startTalking() {
     CACHED_TOKEN = null;
     TOKEN_FETCH_PROMISE = null;
 
-    const GEMINI_WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=${TOKEN}`;
+    const GEMINI_WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?key=${TOKEN}`;
     SOCKET = new WebSocket(GEMINI_WS_URL);
 
     SOCKET.onopen = () => {
