@@ -15,7 +15,7 @@ export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   const CACHED_TIER = localStorage.getItem("access_tier");
   const AUTH_CONTAINER = document.getElementById("auth-header-container");
 
-  // Render email and Logout button in header
+  // Render user status and Logout button in header
   if (AUTH_CONTAINER) {
     if (EMAIL) {
       AUTH_CONTAINER.innerHTML = `
@@ -34,13 +34,13 @@ export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
     }
   }
 
-  // Redirect to login if user identity is missing
+  // Redirect if user identity is missing
   if (!EMAIL) {
     window.location.href = "/login/login.html";
     return;
   }
 
-  // Verify access tier against Firestore
+  // Try querying Firestore; fall back to localStorage on permission/connection errors
   try {
     const USER_SNAP = await getDoc(doc(DB, "users", EMAIL));
     if (USER_SNAP.exists()) {
@@ -51,12 +51,14 @@ export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       if (TIER !== REQUIRED_TIER && TIER !== "fullcourse") {
         window.location.href = "/login/login.html";
       }
-    } else if (CACHED_TIER !== REQUIRED_TIER && CACHED_TIER !== "fullcourse") {
-      window.location.href = "/login/login.html";
+      return;
     }
-  } catch (E) {
-    if (CACHED_TIER !== REQUIRED_TIER && CACHED_TIER !== "fullcourse") {
-      window.location.href = "/login/login.html";
-    }
+  } catch (ERR) {
+    console.warn("Firestore unreachable, evaluating local access tier:", ERR.message);
+  }
+
+  // Evaluate offline / local session fallback
+  if (CACHED_TIER !== REQUIRED_TIER && CACHED_TIER !== "fullcourse") {
+    window.location.href = "/login/login.html";
   }
 }
