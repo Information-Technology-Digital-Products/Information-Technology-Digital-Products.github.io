@@ -824,13 +824,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-<!-- Part 2: Auth Guard Script -->
-<script type="module">
-  import { INIT_LESSON_GUARD } from "/login/auth.js";
 
-  // Enforces access and updates the top-right button
-  // Pass "lesson_1" or "full_course" depending on the lesson requirements
-  INIT_LESSON_GUARD("lesson_1");
+
+
+<script type="module">
+  import { INIT_LESSON_GUARD } from "/login/auth.js"; // Adjust relative path if needed
+  INIT_LESSON_GUARD("lesson1");
 </script>
 
 </body>
