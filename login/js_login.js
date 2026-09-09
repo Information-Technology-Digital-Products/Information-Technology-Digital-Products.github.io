@@ -1,9 +1,29 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const FIREBASE_CONFIG = {
+  apiKey: "YOUR_FIREBASE_API_KEY",
+  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID"
+};
+
+let DB = null;
+// Only initialize Firestore if real credentials have been provided
+if (FIREBASE_CONFIG.projectId && !FIREBASE_CONFIG.projectId.includes("YOUR_PROJECT_ID")) {
+  try {
+    const APP = initializeApp(FIREBASE_CONFIG);
+    DB = getFirestore(APP);
+  } catch (E) {
+    console.warn("Firestore initialization failed.");
+  }
+}
+
 export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   const EMAIL = localStorage.getItem("user_email");
   const CACHED_TIER = localStorage.getItem("access_tier");
   const AUTH_CONTAINER = document.getElementById("auth-header-container");
 
-  // Inject user email and Logout button into header
+  // Inject email and Logout button into header
   if (AUTH_CONTAINER) {
     if (EMAIL) {
       AUTH_CONTAINER.innerHTML = `
@@ -22,13 +42,32 @@ export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
     }
   }
 
-  // Redirect to login if user is not authenticated
+  // Redirect if user is unauthenticated
   if (!EMAIL) {
     window.location.href = "/login/login.html";
     return;
   }
 
-  // Validate session tier stored locally
+  // Only attempt Firestore network lookup if DB was properly initialized with real keys
+  if (DB) {
+    try {
+      const USER_SNAP = await getDoc(doc(DB, "users", EMAIL));
+      if (USER_SNAP.exists()) {
+        const DATA = USER_SNAP.data();
+        const RAW_TIER = DATA.access_tier || DATA.access_LEVEL || DATA.access_level || "";
+        const TIER = RAW_TIER.toLowerCase().replace(/_/g, "");
+
+        if (TIER !== REQUIRED_TIER && TIER !== "fullcourse") {
+          window.location.href = "/login/login.html";
+          return;
+        }
+      }
+    } catch (E) {
+      // Local fallback if Firestore fails
+    }
+  }
+
+  // Fallback check against local session tier
   if (CACHED_TIER !== REQUIRED_TIER && CACHED_TIER !== "fullcourse") {
     window.location.href = "/login/login.html";
   }
