@@ -11,13 +11,15 @@ export default async function handler(REQ, RES) {
     return;
   }
 
-  if (!process.env.GOOGLE) {
-    RES.status(500).json({ error: "Missing process.env.GOOGLE API key" });
+  const API_KEY = process.env.GOOGLE_DOC;
+
+  if (!API_KEY) {
+    RES.status(500).json({ error: "Missing process.env.GOOGLE_DOC API key" });
     return;
   }
 
   try {
-    const AI = new GoogleGenAI({ apiKey: process.env.GOOGLE });
+    const AI = new GoogleGenAI({ apiKey: API_KEY });
 
     // Set expiration time to 5 minutes (300 seconds)
     const EXPIRE_TIME = new Date(Date.now() + 300 * 1000).toISOString();
