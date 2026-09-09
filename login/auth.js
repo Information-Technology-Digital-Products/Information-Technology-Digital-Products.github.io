@@ -43,7 +43,7 @@ export async function VERIFY_ACCESS(USER_IDENTIFIER, USER_EMAIL = null) {
     let USER_REF = doc(DB, "users", USER_IDENTIFIER);
     let USER_SNAP = await getDoc(USER_REF);
 
-    // Fallback to email lookup if UID document does not exist
+    // Fallback to searching by email if UID document is not found
     if (!USER_SNAP.exists() && USER_EMAIL) {
       USER_REF = doc(DB, "users", USER_EMAIL);
       USER_SNAP = await getDoc(USER_REF);
@@ -104,7 +104,7 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
 }
 
 // Guard protected pages and render the top-right header button
-export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson_1") {
+export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   onAuthStateChanged(AUTH, async (CURRENT_USER) => {
     const CONTAINER = document.getElementById("auth-header-container");
 
