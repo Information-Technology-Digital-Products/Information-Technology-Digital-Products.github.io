@@ -68,7 +68,13 @@ function prefetchToken() {
   if (TOKEN_FETCH_PROMISE) return TOKEN_FETCH_PROMISE;
   
   TOKEN_FETCH_PROMISE = fetch(VERCEL_TOKEN_URL)
-    .then((RESP) => RESP.json())
+    .then(async (RESP) => {
+      if (!RESP.ok) {
+        const ERR_TEXT = await RESP.text();
+        throw new Error(`Server returned status ${RESP.status}: ${ERR_TEXT.substring(0, 100)}`);
+      }
+      return RESP.json();
+    })
     .then((DATA) => {
       if (DATA.token) {
         CACHED_TOKEN = DATA.token;
