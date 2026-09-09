@@ -15,7 +15,7 @@ export function OPEN_CHECKOUT(PASSED_PASSTHROUGH, PRODUCT_ID) {
     successCallback: async function(DATA) {
       const USER_EMAIL = DATA.user.email;
       const IS_FULL = PRODUCT_ID === "FULL_COURSE_PRODUCT_ID" || PRODUCT_ID === "UPSELL_PRODUCT_ID";
-      const TIER_SET = IS_FULL ? "full_course" : "lesson1";
+      const TIER_SET = IS_FULL ? "full_course" : "lesson_1";
       
       await HANDLE_ZERO_CLICK_LOGIN(null, USER_EMAIL, TIER_SET);
       window.location.reload();

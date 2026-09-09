@@ -41,7 +41,7 @@
         if (SUCCESS) {
           STATUS.textContent = "Success! Redirecting to your lessons...";
           setTimeout(() => {
-            window.location.href = TIER === "full_course" ? "/lessons/course.html" : "/lessons/lesson-1.html";
+            window.location.href = "/lesson1/lesson1.html";
           }, 1000);
           return;
         }
@@ -77,7 +77,7 @@
       if (RESULT.success) {
         STATUS.textContent = "Access granted! Loading course...";
         setTimeout(() => {
-          window.location.href = RESULT.tier === "full_course" ? "/lessons/course.html" : "/lessons/lesson-1.html";
+          window.location.href = "/lesson1/lesson1.html";
         }, 1000);
       } else {
         STATUS.textContent = RESULT.error || "Invalid code.";

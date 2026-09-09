@@ -38,10 +38,17 @@ export async function HANDLE_ZERO_CLICK_LOGIN(PAYMENT_TOKEN, USER_EMAIL, ACCESS_
 }
 
 // Verify a user's access tier from Firestore using UID or Email
-export async function VERIFY_ACCESS(USER_IDENTIFIER) {
+export async function VERIFY_ACCESS(USER_IDENTIFIER, USER_EMAIL = null) {
   try {
-    const USER_REF = doc(DB, "users", USER_IDENTIFIER);
-    const USER_SNAP = await getDoc(USER_REF);
+    let USER_REF = doc(DB, "users", USER_IDENTIFIER);
+    let USER_SNAP = await getDoc(USER_REF);
+
+    // Fallback to email lookup if UID document does not exist
+    if (!USER_SNAP.exists() && USER_EMAIL) {
+      USER_REF = doc(DB, "users", USER_EMAIL);
+      USER_SNAP = await getDoc(USER_REF);
+    }
+
     if (USER_SNAP.exists()) {
       return USER_SNAP.data().access_tier || USER_SNAP.data().access_LEVEL || "none";
     }
@@ -97,7 +104,7 @@ export async function VERIFY_OTP_CODE(EMAIL_ADDRESS, ENTERED_CODE) {
 }
 
 // Guard protected pages and render the top-right header button
-export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
+export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson_1") {
   onAuthStateChanged(AUTH, async (CURRENT_USER) => {
     const CONTAINER = document.getElementById("auth-header-container");
 
@@ -113,8 +120,8 @@ export function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
       return;
     }
 
-    // Check user access in Firestore
-    const USER_TIER = await VERIFY_ACCESS(CURRENT_USER.uid);
+    // Check user access in Firestore using UID and Email fallback
+    const USER_TIER = await VERIFY_ACCESS(CURRENT_USER.uid, CURRENT_USER.email);
     const HAS_ACCESS = USER_TIER === "full_course" || USER_TIER === REQUIRED_TIER;
 
     if (!HAS_ACCESS) {
