@@ -1,5 +1,4 @@
 export default async function handler(REQ, RES) {
-  // Enable CORS
   RES.setHeader("Access-Control-Allow-Origin", "*");
   RES.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   RES.setHeader("Access-Control-Allow-Headers", "Content-Type");
