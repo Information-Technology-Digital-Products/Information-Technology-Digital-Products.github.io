@@ -3,83 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Course Login</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Login - Course Platform</title>
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .login-card {
+      background-color: #1e293b;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 360px;
+    }
+    .login-card h2 {
+      margin-top: 0;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: #94a3b8;
+    }
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 4px;
+      border: 1px solid #334155;
+      background-color: #0f172a;
+      color: #fff;
+      box-sizing: border-box;
+      margin-bottom: 0.5rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 4px;
+      border: none;
+      background-color: #0284c7;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0369a1;
+    }
+    .google-btn {
+      background-color: #ffffff;
+      color: #0f172a;
+      border: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+    }
+    .google-btn:hover {
+      background-color: #f1f5f9;
+    }
+    .divider {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 1rem;
+      font-size: 0.875rem;
+    }
+    .error-message {
+      color: #ef4444;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+    .step-2 {
+      display: none;
+    }
+  </style>
 </head>
 <body>
 
-  <div class="login-card">
-    <h2>Access Platform</h2>
+<div class="login-card">
+  <h2>Course Login</h2>
 
-    <div class="input-group">
-      <label for="emailInput">Email Address</label>
-      <input type="email" id="emailInput" placeholder="name@example.com" required>
-    </div>
+  <button id="googleBtn" class="google-btn">
+    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;">
+    Log in with Google
+  </button>
 
-    <div class="input-group" id="otpGroup" style="display: none;">
-      <label for="otpInput">Enter 6-Digit OTP</label>
-      <input type="text" id="otpInput" placeholder="123456" maxlength="6">
-    </div>
+  <div class="divider">— OR —</div>
 
-    <p id="errorMessage" class="error-msg" style="display: none;"></p>
-
-    <button id="mainBtn">Send Login Code</button>
-    <button id="payBtn" class="secondary-btn">Buy Full Course</button>
+  <div id="step1" class="form-group">
+    <label for="email">Email Address</label>
+    <input type="email" id="email" placeholder="you@example.com">
+    <button id="sendOtpBtn">Send Login Code</button>
   </div>
 
-  <script type="module">
-    import { requestOTP, verifyOTPAndLogin } from "./auth.js";
-    import { handlePaymentCheckout } from "./checkout.js";
+  <div id="step2" class="form-group step-2">
+    <label for="otp">Enter 6-Digit OTP</label>
+    <input type="text" id="otp" placeholder="123456" maxlength="6">
+    <button id="verifyOtpBtn">Verify & Access</button>
+  </div>
 
-    const EMAIL_INPUT = document.getElementById("emailInput");
-    const OTP_INPUT = document.getElementById("otpInput");
-    const OTP_GROUP = document.getElementById("otpGroup");
-    const MAIN_BTN = document.getElementById("mainBtn");
-    const PAY_BTN = document.getElementById("payBtn");
-    const ERR_MSG = document.getElementById("errorMessage");
+  <div id="errMsg" class="error-message"></div>
+</div>
 
-    let STEP = "EMAIL";
+<script type="module">
+  import { requestOTP, verifyOTPAndLogin, loginWithGoogle } from "./auth.js";
 
-    MAIN_BTN.addEventListener("click", async () => {
-      ERR_MSG.style.display = "none";
-      const EMAIL = EMAIL_INPUT.value.trim();
+  const EMAIL_INPUT = document.getElementById("email");
+  const OTP_INPUT = document.getElementById("otp");
+  const SEND_OTP_BTN = document.getElementById("sendOtpBtn");
+  const VERIFY_OTP_BTN = document.getElementById("verifyOtpBtn");
+  const GOOGLE_BTN = document.getElementById("googleBtn");
+  const STEP1 = document.getElementById("step1");
+  const STEP2 = document.getElementById("step2");
+  const ERR_MSG = document.getElementById("errMsg");
 
-      if (STEP === "EMAIL") {
-        try {
-          MAIN_BTN.disabled = true;
-          MAIN_BTN.innerText = "Sending code...";
-          await requestOTP(EMAIL);
-          
-          OTP_GROUP.style.display = "block";
-          EMAIL_INPUT.disabled = true;
-          MAIN_BTN.innerText = "Verify & Access";
-          MAIN_BTN.disabled = false;
-          STEP = "OTP";
-        } catch (ERR) {
-          ERR_MSG.innerText = ERR.message;
-          ERR_MSG.style.display = "block";
-          MAIN_BTN.disabled = false;
-          MAIN_BTN.innerText = "Send Login Code";
-        }
-      } else if (STEP === "OTP") {
-        try {
-          MAIN_BTN.disabled = true;
-          MAIN_BTN.innerText = "Verifying...";
-          const CODE = OTP_INPUT.value.trim();
-          await verifyOTPAndLogin(EMAIL, CODE);
-        } catch (ERR) {
-          ERR_MSG.innerText = ERR.message;
-          ERR_MSG.style.display = "block";
-          MAIN_BTN.disabled = false;
-          MAIN_BTN.innerText = "Verify & Access";
-        }
-      }
-    });
+  function showError(msg) {
+    ERR_MSG.innerText = msg;
+    ERR_MSG.style.display = "block";
+  }
 
-    PAY_BTN.addEventListener("click", () => {
-      const EMAIL = EMAIL_INPUT.value.trim();
-      handlePaymentCheckout(EMAIL);
-    });
-  </script>
+  function clearError() {
+    ERR_MSG.innerText = "";
+    ERR_MSG.style.display = "none";
+  }
+
+  GOOGLE_BTN.addEventListener("click", async () => {
+    clearError();
+    try {
+      GOOGLE_BTN.disabled = true;
+      await loginWithGoogle();
+    } catch (err) {
+      showError(err.message);
+      GOOGLE_BTN.disabled = false;
+    }
+  });
+
+  SEND_OTP_BTN.addEventListener("click", async () => {
+    clearError();
+    const email = EMAIL_INPUT.value.trim();
+    if (!email) {
+      showError("Please enter your email address.");
+      return;
+    }
+
+    try {
+      SEND_OTP_BTN.disabled = true;
+      SEND_OTP_BTN.innerText = "Sending...";
+      await requestOTP(email);
+      STEP1.style.display = "none";
+      STEP2.style.display = "block";
+    } catch (err) {
+      showError(err.message);
+      SEND_OTP_BTN.disabled = false;
+      SEND_OTP_BTN.innerText = "Send Login Code";
+    }
+  });
+
+  VERIFY_OTP_BTN.addEventListener("click", async () => {
+    clearError();
+    const email = EMAIL_INPUT.value.trim();
+    const otp = OTP_INPUT.value.trim();
+
+    if (!otp || otp.length !== 6) {
+      showError("Please enter a valid 6-digit code.");
+      return;
+    }
+
+    try {
+      VERIFY_OTP_BTN.disabled = true;
+      VERIFY_OTP_BTN.innerText = "Verifying...";
+      await verifyOTPAndLogin(email, otp);
+    } catch (err) {
+      showError(err.message);
+      VERIFY_OTP_BTN.disabled = false;
+      VERIFY_OTP_BTN.innerText = "Verify & Access";
+    }
+  });
+</script>
+
 </body>
 </html>

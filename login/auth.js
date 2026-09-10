@@ -1,6 +1,8 @@
-import { DB } from "./firebase-config.js";
+import { DB, AUTH } from "./firebase-config.js";
+import { GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 let GENERATED_OTP = null;
+const GOOGLE_PROVIDER = new GoogleAuthProvider();
 
 export async function requestOTP(EMAIL) {
   if (!EMAIL || !EMAIL.includes("@")) {
@@ -29,16 +31,31 @@ export async function verifyOTPAndLogin(EMAIL, ENTERED_OTP) {
     throw new Error("Invalid OTP code. Please try again.");
   }
 
-  // Use the mocked console tier if active, otherwise fallback to lesson1
   const FINAL_TIER = window.TEST_TIER || "lesson1";
 
-  // Store identity & tier ONLY upon successful OTP verification
   localStorage.setItem("user_email", EMAIL.toLowerCase());
   localStorage.setItem("access_tier", FINAL_TIER);
 
-  // Clear mock state
   delete window.TEST_TIER;
 
-  // Direct authorized user to lesson page
   window.location.href = "/lesson1/lesson1.html";
+}
+
+export async function loginWithGoogle() {
+  try {
+    const RESULT = await signInWithPopup(AUTH, GOOGLE_PROVIDER);
+    const USER = RESULT.user;
+    const EMAIL = USER.email.toLowerCase();
+
+    const FINAL_TIER = window.TEST_TIER || "lesson1";
+
+    localStorage.setItem("user_email", EMAIL);
+    localStorage.setItem("access_tier", FINAL_TIER);
+
+    delete window.TEST_TIER;
+
+    window.location.href = "/lesson1/lesson1.html";
+  } catch (ERR) {
+    throw new Error(ERR.message || "Google sign-in failed.");
+  }
 }
