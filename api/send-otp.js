@@ -29,7 +29,7 @@ export default async function handler(REQ, RES) {
     const RESEND = new Resend(RESEND_KEY);
 
     await RESEND.emails.send({
-      from: "Machine Intelligence School<machineintelligence.school@gmail.com>",
+      from: "Course Platform <onboarding@resend.dev>",
       to: [email],
       subject: "Your Access OTP Code",
       html: `<p>Your verification code is: <strong>${otp}</strong></p><p>This code expires in 10 minutes.</p>`
