@@ -25,10 +25,11 @@
 <body>
 
 
-<!-- Top-Right Auth Widget Target -->
-  <div id="auth-header"></div>
-  <br/>
-
+<header style="display: flex; justify-content: flex-end; padding: 15px;">
+  <div id="auth-header-container">
+    <!-- Email / Logout button injects here -->
+  </div>
+</header>
 
 
 <header><br/>
@@ -924,15 +925,9 @@ print(f"TESTING complete: ERROR = {ERROR:.2f}")
 
 
 
-
 <script type="module">
-  import { protectPage, renderAuthHeader } from "/access/access-control.js";
-
-  // Check access specifically for Lesson 2
-  protectPage("lesson2", "/lesson2/lesson2.html");
-
-  // Display top-right auth widget
-  renderAuthHeader("auth-header");
+  import { INIT_LESSON_GUARD } from "/login/js_login.js";
+  INIT_LESSON_GUARD("lesson2");
 </script>
 
 </body>
