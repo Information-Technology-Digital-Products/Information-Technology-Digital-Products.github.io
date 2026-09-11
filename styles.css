@@ -92,7 +92,7 @@ em { font-style: italic; }
   background: var(black);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  
+  border: transparent;
   border-radius: 16px;
   padding: 32px 0px;
   text-align: center;
