@@ -628,22 +628,6 @@ html, body {
 
 
 
-.pricing-block .header-audience:second-child {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: var(--text-main);
-  
-  padding: 8px 0px;
-
-  margin-bottom: 20px;
-}
-
-
-
 
 .pricing-block .header-eyebrow {
   font-size: 17px;
@@ -701,6 +685,14 @@ html, body {
   font-weight: 600;
   line-height: 1.4;
   color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.pricing-block .header-ten {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: white;
   margin-bottom: 24px;
 }
 
