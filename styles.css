@@ -88,7 +88,6 @@ em { font-style: italic; }
 .header {
   position: relative;
   width: 100%;
-
   background: var(black);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
