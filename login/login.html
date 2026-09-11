@@ -19,13 +19,13 @@
 
     .container {
       width: 450px;
-      padding: 24px;
+      padding: 28px;
       background: #1c1c1c;
-      border-radius: 12px;
+      border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
       box-sizing: border-box;
     }
 
@@ -34,6 +34,18 @@
       margin: 0;
       font-size: 22px;
       letter-spacing: 0.5px;
+    }
+
+    /* Outer section card grouping both sign-in methods */
+    .auth-card {
+      border: 1px solid #333333;
+      border-radius: 12px;
+      padding: 20px;
+      background: #141414;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
     }
 
     .block {
@@ -119,32 +131,35 @@
   <div class="container">
     <h1>LOG IN</h1>
 
-    <!-- Option 1: Email Entry / OTP Verification -->
-    <div id="emailBlock" class="block">
-      <!-- Step 1: Purchase Email Entry -->
-      <div id="step1" style="display: flex; flex-direction: column; gap: 12px;">
-        <label for="email">Your Purchase Email</label>
-        <input type="email" id="email" placeholder="you@example.com" />
-        <button id="sendOtpBtn" class="primary">Send Login Code</button>
+    <!-- Shared outer counter/card container for both login methods -->
+    <div class="auth-card">
+      <!-- Option 1: Email Entry / OTP Verification -->
+      <div id="emailBlock" class="block">
+        <!-- Step 1: Purchase Email Entry -->
+        <div id="step1" style="display: flex; flex-direction: column; gap: 12px;">
+          <label for="email">Your Purchase Email</label>
+          <input type="email" id="email" placeholder="you@example.com" />
+          <button id="sendOtpBtn" class="primary">Send Login Code</button>
+        </div>
+
+        <!-- Step 2: Login Code Entry -->
+        <div id="step2" style="display: none; flex-direction: column; gap: 12px;">
+          <label for="otp">Enter 6-Digit Login Code</label>
+          <input type="text" id="otp" placeholder="123456" maxlength="6" />
+          <button id="verifyOtpBtn" class="primary">Log In</button>
+        </div>
       </div>
 
-      <!-- Step 2: Login Code Entry -->
-      <div id="step2" style="display: none; flex-direction: column; gap: 12px;">
-        <label for="otp">Enter 6-Digit Login Code</label>
-        <input type="text" id="otp" placeholder="123456" maxlength="6" />
-        <button id="verifyOtpBtn" class="primary">Log In</button>
+      <h1 id="dividerBlock">OR</h1>
+
+      <!-- Option 2: Google Sign-In -->
+      <div id="googleBlock" class="block">
+        <button id="googleBtn" class="google">
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;" />
+          Log in with Google
+        </button>
+        <p class="helper-text">Use the Google account associated with your Purchase Email</p>
       </div>
-    </div>
-
-    <h1 id="dividerBlock">OR</h1>
-
-    <!-- Option 2: Google Sign-In -->
-    <div id="googleBlock" class="block">
-      <button id="googleBtn" class="google">
-        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;" />
-        Log in with Google
-      </button>
-      <p class="helper-text">Use the Google account associated with your Purchase Email</p>
     </div>
 
     <div id="errMsg" class="error-message"></div>
