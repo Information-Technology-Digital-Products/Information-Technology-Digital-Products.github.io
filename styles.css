@@ -652,19 +652,26 @@ html, body {
   margin-bottom: 24px;
 }
 
-.pricing-block .header-audience:last-of-type {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--accent-emerald);
-  background: rgba(52, 211, 153, 0.08);
-  border: 1px solid rgba(52, 211, 153, 0.2);
-  padding: 10px 0px;
+.pricing-block {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
   border-radius: 16px;
-  margin-top: 20px;
+  padding: 32px 0px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+              0 0 80px var(--glass-glow),
+              inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+  color-scheme: only light;   /* was: dark — locks this block out of OS/browser auto-dark inversion */
+  forced-color-adjust: none;  /* also opts out of Windows High-Contrast forced recoloring */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.4s ease;
 }
 
 .img-block {
