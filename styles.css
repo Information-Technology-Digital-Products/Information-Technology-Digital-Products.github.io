@@ -1,5 +1,10 @@
 /* ── DESIGN TOKENS ── */
 :root {
+  /* Tells the browser this page manages its own light/dark theming —
+     stops Chrome/Android "Force Dark" from auto-recoloring backgrounds
+     and mangling gradient text on its own. This is the actual fix. */
+  color-scheme: light dark;
+
   --black:        #111111;
   --gray:         #555555;
   --gray-lt:      #f2f2f2;
@@ -565,8 +570,8 @@ html, body {
               inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
   isolation: isolate;
-  color-scheme: only light;   /* opt this block out of OS/browser auto-dark inversion */
-  forced-color-adjust: none;  /* opt out of Windows High-Contrast forced recoloring too */
+  color-scheme: only light; /* belt-and-suspenders: this component always renders as its light-designed self */
+  forced-color-adjust: none;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
               box-shadow 0.4s ease;
 }
@@ -612,21 +617,17 @@ html, body {
   margin-bottom: 8px;
 }
 
-/* Solid colors instead of background-clip:text gradients —
-   auto-dark engines (Android Force Dark, in-app WebViews) mangle
-   transparent-fill gradient text, which was making these disappear
-   in dark mode. Plain color + text-shadow keeps the premium look
-   and renders identically in every mode/engine. */
+/* Restored original gradient-clip titles — now safe, since :root color-scheme
+   above stops the browser from auto-recoloring/inverting them */
 .pricing-title {
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  color: var(--yellow) !important;
-  -webkit-text-fill-color: var(--yellow) !important;
-  background: none !important;
-  text-shadow: 0 2px 12px rgba(255, 209, 102, 0.25);
+  background: linear-gradient(135deg, #ffffff 0%, var(--yellow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .green-title {
@@ -635,10 +636,9 @@ html, body {
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  color: #4ade80 !important;
-  -webkit-text-fill-color: #4ade80 !important;
-  background: none !important;
-  text-shadow: 0 2px 12px rgba(74, 222, 128, 0.25);
+  background: linear-gradient(135deg, #ffffff 0%, var(--green) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .blue-title {
@@ -647,10 +647,9 @@ html, body {
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  color: #60a5fa !important;
-  -webkit-text-fill-color: #60a5fa !important;
-  background: none !important;
-  text-shadow: 0 2px 12px rgba(96, 165, 250, 0.25);
+  background: linear-gradient(135deg, #ffffff 0%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .pricing-block .header-subtitle {
