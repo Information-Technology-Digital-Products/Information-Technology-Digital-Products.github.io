@@ -1,8 +1,7 @@
 /* ==========================================================================
-   1. DESIGN TOKENS & MODES
+   1. DESIGN TOKENS (LIGHT MODE ONLY)
    ========================================================================== */
 
-/* ── LIGHT MODE (DEFAULT) ── */
 :root {
   --bg:             #ffffff;
   --text-main:      #0f172a;
@@ -47,81 +46,10 @@
   --sphere-off-color: transparent !important;
   --sphere-on-color:  transparent !important;
 
-  /* Text Gradient Stops (Light Mode Visibility Fix) */
+  /* Text Gradient Stops */
   --title-grad-start: #0f172a;
   --green-grad-start: #064e3b;
   --blue-grad-start:  #0c4a6e;
-}
-
-/* ── DARK MODE (System Preference) ── */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:             #0b0f19;
-    --text-main:      #f8fafc;
-    --text-muted:     #94a3b8;
-    --black:          #f8fafc;
-    --white:          #161f30;
-    --gray:           #94a3b8;
-    --gray-lt:        #1e293b;
-    --border:         #334155;
-
-    --yellow:         #ffd166;
-    --green:          #34d399;
-    --green-lt-lt:    #00ff00;
-    --green-lt:       rgba(52, 211, 153, 0.12);
-    --blue:           #38bdf8;
-    --blue-lt:        rgba(56, 189, 248, 0.12);
-    --orange:         #fb923c;
-    --orange-lt:      rgba(251, 146, 60, 0.12);
-    --red:            #f87171;
-    --red-lt:         rgba(248, 113, 113, 0.12);
-
-    /* Glass Card Styling */
-    --card-bg:        rgba(22, 31, 48, 0.85);
-    --card-border:    rgba(255, 255, 255, 0.1);
-    --accent-cyan:    #38bdf8;
-    --accent-emerald: #34d399;
-    --glass-glow:     rgba(56, 189, 248, 0.15);
-
-    --color-blue:     #38bdf8;
-    --color-green:    #34d399;
-
-    /* Text Gradient Stops (Dark Mode Visibility Fix) */
-    --title-grad-start: #ffffff;
-    --green-grad-start: #ffffff;
-    --blue-grad-start:  #ffffff;
-  }
-}
-
-/* Explicit class override for JS dark toggle */
-html.dark, body.dark {
-  --bg:             #0b0f19;
-  --text-main:      #f8fafc;
-  --text-muted:     #94a3b8;
-  --black:          #f8fafc;
-  --white:          #161f30;
-  --gray:           #94a3b8;
-  --gray-lt:        #1e293b;
-  --border:         #334155;
-  --yellow:         #ffd166;
-  --green:          #34d399;
-  --green-lt:       rgba(52, 211, 153, 0.12);
-  --blue:           #38bdf8;
-  --blue-lt:        rgba(56, 189, 248, 0.12);
-  --orange:         #fb923c;
-  --orange-lt:      rgba(251, 146, 60, 0.12);
-  --red:            #f87171;
-  --red-lt:         rgba(248, 113, 113, 0.12);
-  --card-bg:        rgba(22, 31, 48, 0.85);
-  --card-border:    rgba(255, 255, 255, 0.1);
-  --accent-cyan:    #38bdf8;
-  --accent-emerald: #34d399;
-  --glass-glow:     rgba(56, 189, 248, 0.15);
-  --color-blue:     #38bdf8;
-  --color-green:    #34d399;
-  --title-grad-start: #ffffff;
-  --green-grad-start: #ffffff;
-  --blue-grad-start:  #ffffff;
 }
 
 /* ==========================================================================
@@ -560,7 +488,6 @@ header {
   transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
-/* Dynamic Field-Sizing Heights */
 #code-input1, #code-input2, #code-input3, 
 #code-input4, #code-input5, #code-input6, #code-input7 { field-sizing: content; }
 
@@ -734,7 +661,6 @@ header {
 
 .teaser-next { color: var(--yellow); font-weight: 900; font-size: 22px; margin: 8px 0; }
 
-/* Focus Scroll Line */
 .focus-line-target {
   background-color: var(--yellow) !important;
   color: #111111 !important;
@@ -913,7 +839,6 @@ header {
   margin-bottom: 8px;
 }
 
-/* Fixed Multi-Mode Title Gradients */
 .pricing-title {
   font-size: 28px;
   font-weight: 900;
