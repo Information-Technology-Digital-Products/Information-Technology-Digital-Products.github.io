@@ -84,11 +84,30 @@ strong { font-weight: 900; }
 em { font-style: italic; }
 
 /* ── HEADER ── */
-header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-align: center; }
-.header-eyebrow, .header-tag { font-size: 17px; color: var(--green); font-weight: 700; }
-.header-title { font-size: 25px; font-weight: 900; line-height: 1.2; color: var(--yellow); }
-.header-subtitle { font-size: 17px; color: #aaaaaa; font-weight: 700; }
-.header-audience { font-size: 17px; color: #ffffff; font-weight: 700; }
+
+.header {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  background: var(black);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  
+ 
+  padding: 32px 0px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
+              0 0 80px var(--glass-glow),
+              inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+  isolation: isolate;
+  color-scheme: only light;   /* opt this block out of OS/browser auto-dark inversion */
+  forced-color-adjust: none;  /* opt out of Windows High-Contrast forced recoloring too */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              box-shadow 0.4s ease;
+}
+
+
 
 /* ── LAYOUT ── */
 .page { max-width: var(--content-max-width); margin: 0 auto; padding: 0 0; }
