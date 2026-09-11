@@ -7,7 +7,7 @@ export async function INIT_LESSON_GUARD(REQUIRED_TIER = "lesson1") {
   if (AUTH_CONTAINER) {
     if (EMAIL) {
       AUTH_CONTAINER.innerHTML = `
-        <span style="margin-right: 10px; color: #cbd5e1;">${}</span>
+        <span style="margin-right: 10px; color: #cbd5e1;">${EMAIL}</span>
         <button id="logout-btn" style="padding: 5px 12px; cursor: pointer;">Logout</button>
       `;
       document.getElementById("logout-btn").addEventListener("click", () => {
