@@ -1,39 +1,39 @@
 /* ==========================================================================
-   1. DESIGN TOKENS (LIGHT MODE ONLY)
+   1. UNIFIED DARK THEME TOKENS
    ========================================================================== */
 
 :root {
-  --bg:             #ffffff;
-  --text-main:      #0f172a;
-  --text-muted:     #475569;
-  --black:          #111111;
-  --white:          #ffffff;
-  --gray:           #555555;
-  --gray-lt:        #f8fafc;
-  --border:         #e2e8f0;
+  --bg:             #0b0f19;
+  --text-main:      #f8fafc;
+  --text-muted:     #94a3b8;
+  --black:          #f8fafc;
+  --white:          #161f30;
+  --gray:           #94a3b8;
+  --gray-lt:        #1e293b;
+  --border:         #334155;
 
   /* Accent & Status Colors */
-  --yellow:         #d97706;
-  --green:          #16a34a;
+  --yellow:         #ffd166;
+  --green:          #34d399;
   --green-lt-lt:    #00ff00;
-  --green-lt:       #f0fdf4;
-  --blue:           #0284c7;
-  --blue-lt:        #f0f9ff;
-  --orange:         #ea580c;
-  --orange-lt:      #fff7ed;
-  --red:            #dc2626;
-  --red-lt:         #fef2f2;
+  --green-lt:       rgba(52, 211, 153, 0.12);
+  --blue:           #38bdf8;
+  --blue-lt:        rgba(56, 189, 248, 0.12);
+  --orange:         #fb923c;
+  --orange-lt:      rgba(251, 146, 60, 0.12);
+  --red:            #f87171;
+  --red-lt:         rgba(248, 113, 113, 0.12);
 
   /* Glass Card Styling */
-  --card-bg:        rgba(255, 255, 255, 0.90);
-  --card-border:    #e2e8f0;
-  --accent-cyan:    #0284c7;
-  --accent-emerald: #16a34a;
-  --glass-glow:     rgba(2, 132, 199, 0.08);
+  --card-bg:        rgba(22, 31, 48, 0.85);
+  --card-border:    rgba(255, 255, 255, 0.1);
+  --accent-cyan:    #38bdf8;
+  --accent-emerald: #34d399;
+  --glass-glow:     rgba(56, 189, 248, 0.15);
 
   /* Button Controls */
-  --color-blue:     #0284c7;
-  --color-green:    #16a34a;
+  --color-blue:     #38bdf8;
+  --color-green:    #34d399;
 
   /* Sizing & Layout */
   --content-max-width: 768px;
@@ -46,10 +46,10 @@
   --sphere-off-color: transparent !important;
   --sphere-on-color:  transparent !important;
 
-  /* Text Gradient Stops */
-  --title-grad-start: #0f172a;
-  --green-grad-start: #064e3b;
-  --blue-grad-start:  #0c4a6e;
+  /* Text Gradient Stops (Fixed Dark Mode Visibility) */
+  --title-grad-start: #ffffff;
+  --green-grad-start: #ffffff;
+  --blue-grad-start:  #ffffff;
 }
 
 /* ==========================================================================
@@ -68,6 +68,8 @@
 html, body {
   height: 100%;
   margin: 0;
+  background-color: var(--bg) !important;
+  color: var(--text-main) !important;
 }
 
 body { 
@@ -488,6 +490,7 @@ header {
   transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
 }
 
+/* Dynamic Field-Sizing Heights */
 #code-input1, #code-input2, #code-input3, 
 #code-input4, #code-input5, #code-input6, #code-input7 { field-sizing: content; }
 
@@ -661,6 +664,7 @@ header {
 
 .teaser-next { color: var(--yellow); font-weight: 900; font-size: 22px; margin: 8px 0; }
 
+/* Focus Scroll Line */
 .focus-line-target {
   background-color: var(--yellow) !important;
   color: #111111 !important;
@@ -780,28 +784,28 @@ header {
 .round-button.is-tooltip-visible::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ==========================================================================
-   11. PRICING CARD & GRADIENT TITLES
+   11. UNCHANGEABLE PRICING CARD & GRADIENT TITLES
    ========================================================================== */
 
 .pricing-block {
   position: relative;
   width: 100%;
   max-width: 350px;
-  background: var(--card-bg);
+  background: rgba(22, 31, 48, 0.85) !important;
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
   border-radius: 16px;
   padding: 32px 0px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 80px var(--glass-glow);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 80px rgba(56, 189, 248, 0.15) !important;
   overflow: hidden;
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
 }
 
 .pricing-block:hover {
   transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12), 0 0 100px var(--glass-glow);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12), 0 0 100px rgba(56, 189, 248, 0.15) !important;
 }
 
 .pricing-block::before {
@@ -811,7 +815,7 @@ header {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 50% 0%, var(--glass-glow), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 70%);
   pointer-events: none;
 }
 
@@ -822,9 +826,9 @@ header {
   font-size: 17px;
   font-weight: 700;
   line-height: 1.4;
-  color: var(--text-main);
-  background: var(--gray-lt);
-  border: 1px solid var(--border);
+  color: #f8fafc !important;
+  background: #1e293b !important;
+  border: 1px solid #334155 !important;
   padding: 8px 0px;
   border-radius: 100px;
   margin-bottom: 20px;
@@ -835,19 +839,20 @@ header {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--accent-cyan);
+  color: #38bdf8 !important;
   margin-bottom: 8px;
 }
 
+/* Fixed Dark-Gradients for Text (Always High-Contrast White Start) */
 .pricing-title {
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--title-grad-start) 0%, var(--yellow) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #ffffff 0%, #ffd166 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 .green-title {
@@ -856,9 +861,9 @@ header {
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--green-grad-start) 0%, var(--green) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #ffffff 0%, #34d399 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 .blue-title {
@@ -867,16 +872,16 @@ header {
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, var(--blue-grad-start) 0%, var(--blue) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: linear-gradient(135deg, #ffffff 0%, #38bdf8 100%) !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
 }
 
 .pricing-block .header-subtitle {
   font-size: 17px;
   font-weight: 600;
   line-height: 1.4;
-  color: var(--text-muted);
+  color: #94a3b8 !important;
   margin-bottom: 24px;
 }
 
@@ -887,9 +892,9 @@ header {
   gap: 8px;
   font-size: 17px;
   font-weight: 700;
-  color: var(--accent-emerald);
-  background: var(--green-lt);
-  border: 1px solid var(--border);
+  color: #34d399 !important;
+  background: rgba(52, 211, 153, 0.12) !important;
+  border: 1px solid #334155 !important;
   padding: 10px 0px;
   border-radius: 16px;
   margin-top: 20px;
@@ -900,8 +905,8 @@ header {
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.05);
-  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid #334155 !important;
   margin: 16px 0;
   text-align: center;
 }
@@ -918,7 +923,7 @@ header {
 .pricing-block:hover .img-block img { transform: scale(1.00); }
 
 .pricing-block .family {
-  color: var(--text-muted) !important;
+  color: #94a3b8 !important;
   font-size: 17px !important;
   margin-top: 8px !important;
 }
