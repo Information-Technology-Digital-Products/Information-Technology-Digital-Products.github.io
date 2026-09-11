@@ -97,7 +97,7 @@ em { font-style: italic; }
   border-radius: 16px;
   */
 
-  padding: 32px 0px;
+  padding: 32px 0px !important;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
               0 0 80px var(--glass-glow),
