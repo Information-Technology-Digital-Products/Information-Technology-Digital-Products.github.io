@@ -1,54 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Course Platform</title>
+
   <style>
     body {
-      background-color: #0f172a;
-      color: #f8fafc;
+      margin: 0;
       font-family: Arial, sans-serif;
+      background: #0f0f0f;
+      color: #ffffff;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      margin: 0;
     }
-    .login-card {
-      background-color: #1e293b;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 360px;
+
+    .container {
+      width: 360px;
+      padding: 24px;
+      background: #1c1c1c;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      box-sizing: border-box;
     }
-    .login-card h2 {
-      margin-top: 0;
-      margin-bottom: 1.5rem;
+
+    h1 {
       text-align: center;
+      margin: 0;
+      font-size: 22px;
+      letter-spacing: 0.5px;
     }
-    .form-group {
-      margin-bottom: 1rem;
+
+    .block {
+      border: 1px solid #3a3a3a;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #181818;
     }
+
     label {
       display: block;
-      margin-bottom: 0.5rem;
       font-size: 0.875rem;
       color: #94a3b8;
     }
+
     .helper-text {
       font-size: 0.75rem;
       color: #64748b;
+      margin: 0;
       text-align: center;
-      margin-top: 0;
-      margin-bottom: 0.75rem;
     }
+
     .sent-notice {
       font-size: 0.75rem;
       color: #94a3b8;
-      margin: -0.25rem 0 0.75rem 0;
+      margin: -0.25rem 0 0.5rem 0;
     }
+
     .change-email-btn {
       background: none;
       border: none;
@@ -60,95 +76,114 @@
       width: auto;
       display: inline;
     }
+
     .change-email-btn:hover {
-      background: none;
       color: #7dd3fc;
     }
+
     input {
       width: 100%;
-      padding: 0.75rem;
-      border-radius: 4px;
-      border: 1px solid #334155;
-      background-color: #0f172a;
-      color: #fff;
+      padding: 10px;
+      border: 1px solid #3a3a3a;
+      border-radius: 8px;
+      background: #2a2a2a;
+      color: #ffffff;
       box-sizing: border-box;
-      margin-bottom: 0.5rem;
     }
+
+    input:focus {
+      outline: none;
+      border-color: #4a90e2;
+    }
+
     button {
       width: 100%;
-      padding: 0.75rem;
-      border-radius: 4px;
+      padding: 10px;
+      border-radius: 8px;
       border: none;
-      background-color: #0284c7;
-      color: #fff;
-      font-weight: bold;
       cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s ease;
     }
-    button:hover {
-      background-color: #0369a1;
+
+    .primary {
+      background: #0284c7;
+      color: #ffffff;
     }
-    .google-btn {
-      background-color: #ffffff;
+
+    .primary:hover {
+      background: #0369a1;
+    }
+
+    .google {
+      background: #ffffff;
       color: #0f172a;
-      border: 1px solid #cbd5e1;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 0.25rem;
     }
-    .google-btn:hover {
-      background-color: #f1f5f9;
+
+    .google:hover {
+      background: #f1f5f9;
     }
+
     .divider {
       text-align: center;
       color: #64748b;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
       font-size: 0.875rem;
+      margin: 0;
     }
+
     .error-message {
       color: #ef4444;
       font-size: 0.875rem;
-      margin-top: 0.5rem;
+      text-align: center;
       display: none;
     }
+
     .step-2 {
       display: none;
     }
   </style>
 </head>
+
 <body>
 
-<div class="login-card">
-  <h2>Login</h2>
+  <div class="container">
+    <h1>LOG IN</h1>
 
-  <div id="step1" class="form-group">
-    <label for="email">Purchase Email</label>
-    <input type="email" id="email" placeholder="you@example.com">
-    <button id="sendOtpBtn">Send Login Code</button>
-
-    <div class="divider">— OR —</div>
-    <p class="helper-text">If your Purchase Email is a Google Email</p>
-
-    <button id="googleBtn" class="google-btn">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;">
-      Log in with Google
-    </button>
-  </div>
-
-  <div id="step2" class="form-group step-2">
-    <label for="otp">Enter 6-Digit Login Code</label>
-    <div class="sent-notice">
-      Sent to <span id="sentEmailDisplay" style="color: #f8fafc;"></span> 
-      (<button type="button" id="changeEmailBtn" class="change-email-btn">Change</button>)
+    <!-- Step 1: Purchase Email Entry -->
+    <div id="step1" class="block">
+      <label for="email">Purchase Email</label>
+      <input type="email" id="email" placeholder="you@example.com" />
+      <button id="sendOtpBtn" class="primary">Send Login Code</button>
     </div>
-    <input type="text" id="otp" placeholder="123456" maxlength="6">
-    <button id="verifyOtpBtn">Log In</button>
-  </div>
 
-  <div id="errMsg" class="error-message"></div>
-</div>
+    <div id="dividerBlock" class="divider">— OR —</div>
+
+    <!-- Step 1 Option 2: Google Sign-In -->
+    <div id="googleBlock" class="block">
+      <p class="helper-text">If your Purchase Email is a Google Email</p>
+      <button id="googleBtn" class="google">
+        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;" />
+        Log in with Google
+      </button>
+    </div>
+
+    <!-- Step 2: Login Code Entry -->
+    <div id="step2" class="block step-2">
+      <label for="otp">Enter 6-Digit Login Code</label>
+      <div class="sent-notice">
+        Sent to <span id="sentEmailDisplay" style="color: #ffffff; font-weight: bold;"></span>
+        (<button type="button" id="changeEmailBtn" class="change-email-btn">Change</button>)
+      </div>
+      <input type="text" id="otp" placeholder="123456" maxlength="6" />
+      <button id="verifyOtpBtn" class="primary">Log In</button>
+    </div>
+
+    <div id="errMsg" class="error-message"></div>
+  </div>
 
 <script type="module">
   import { requestOTP, verifyOTPAndLogin, loginWithGoogle } from "./auth.js";
@@ -160,6 +195,8 @@
   const GOOGLE_BTN = document.getElementById("googleBtn");
   const STEP1 = document.getElementById("step1");
   const STEP2 = document.getElementById("step2");
+  const DIVIDER_BLOCK = document.getElementById("dividerBlock");
+  const GOOGLE_BLOCK = document.getElementById("googleBlock");
   const ERR_MSG = document.getElementById("errMsg");
   const SENT_EMAIL_DISPLAY = document.getElementById("sentEmailDisplay");
   const CHANGE_EMAIL_BTN = document.getElementById("changeEmailBtn");
@@ -174,11 +211,18 @@
     ERR_MSG.style.display = "none";
   }
 
+  function redirectAfterLogin() {
+    const PARAMS = new URLSearchParams(window.location.search);
+    const REDIRECT = PARAMS.get("redirect");
+    window.location.href = REDIRECT || "/lesson1/lesson1.html";
+  }
+
   GOOGLE_BTN.addEventListener("click", async () => {
     clearError();
     try {
       GOOGLE_BTN.disabled = true;
       await loginWithGoogle();
+      redirectAfterLogin();
     } catch (err) {
       showError(err.message);
       GOOGLE_BTN.disabled = false;
@@ -187,8 +231,8 @@
 
   SEND_OTP_BTN.addEventListener("click", async () => {
     clearError();
-    const email = EMAIL_INPUT.value.trim();
-    if (!email) {
+    const EMAIL = EMAIL_INPUT.value.trim();
+    if (!EMAIL) {
       showError("Please enter your purchase email");
       return;
     }
@@ -196,11 +240,13 @@
     try {
       SEND_OTP_BTN.disabled = true;
       SEND_OTP_BTN.innerText = "Sending Login Code...";
-      await requestOTP(email);
+      await requestOTP(EMAIL);
       
-      SENT_EMAIL_DISPLAY.innerText = email;
+      SENT_EMAIL_DISPLAY.innerText = EMAIL;
       STEP1.style.display = "none";
-      STEP2.style.display = "block";
+      DIVIDER_BLOCK.style.display = "none";
+      GOOGLE_BLOCK.style.display = "none";
+      STEP2.style.display = "flex";
       OTP_INPUT.focus();
     } catch (err) {
       showError(err.message);
@@ -214,16 +260,18 @@
     clearError();
     OTP_INPUT.value = "";
     STEP2.style.display = "none";
-    STEP1.style.display = "block";
+    STEP1.style.display = "flex";
+    DIVIDER_BLOCK.style.display = "block";
+    GOOGLE_BLOCK.style.display = "flex";
     EMAIL_INPUT.focus();
   });
 
   VERIFY_OTP_BTN.addEventListener("click", async () => {
     clearError();
-    const email = EMAIL_INPUT.value.trim();
-    const otp = OTP_INPUT.value.trim();
+    const EMAIL = EMAIL_INPUT.value.trim();
+    const OTP = OTP_INPUT.value.trim();
 
-    if (!otp || otp.length !== 6) {
+    if (!OTP || OTP.length !== 6) {
       showError("Please enter your 6-digit Login Code.");
       return;
     }
@@ -231,7 +279,8 @@
     try {
       VERIFY_OTP_BTN.disabled = true;
       VERIFY_OTP_BTN.innerText = "Logging in...";
-      await verifyOTPAndLogin(email, otp);
+      await verifyOTPAndLogin(EMAIL, OTP);
+      redirectAfterLogin();
     } catch (err) {
       showError(err.message);
       VERIFY_OTP_BTN.disabled = false;
