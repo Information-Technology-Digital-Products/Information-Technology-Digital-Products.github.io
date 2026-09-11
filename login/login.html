@@ -135,7 +135,7 @@
       <div id="emailBlock" class="block">
         <!-- Step 1: Purchase Email Entry -->
         <div id="step1" style="display: flex; flex-direction: column; gap: 12px;">
-          <label for="email">Enter Your Purchase Email</label>
+          <label for="email">Enter your Purchase Email</label>
           <input type="email" id="email" placeholder="you@example.com" />
           <button id="sendOtpBtn" class="primary">Get Login Code</button>
         </div>
@@ -207,7 +207,7 @@
     clearError();
     const EMAIL = EMAIL_INPUT.value.trim();
     if (!EMAIL) {
-      showError("Please Enter Your Purchase Email");
+      showError("Please Enter your Purchase Email");
       return;
     }
 
@@ -233,7 +233,7 @@
     const OTP = OTP_INPUT.value.trim();
 
     if (!OTP || OTP.length !== 6) {
-      showError("Please Enter Your 6-digit Login Code.");
+      showError("Please Enter your 6-digit Login Code.");
       return;
     }
 
