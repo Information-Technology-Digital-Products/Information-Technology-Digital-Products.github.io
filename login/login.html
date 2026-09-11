@@ -39,31 +39,30 @@
     .block {
       border: 1px solid gray;
       border-radius: 12px;
-      padding: 16px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
       background: #181818;
       box-sizing: border-box;
-      min-height: 135px;
+      min-height: 150px;
       justify-content: center;
     }
 
-    label {
+    label, .helper-text {
       display: block;
-      font-size: 1rem;
-      color: #94a3b8;
-    }
-
-    .helper-text {
       font-size: 1rem;
       color: #94a3b8;
       margin: 0;
     }
 
+    .helper-text {
+      text-align: center;
+    }
+
     input {
       width: 100%;
-      padding: 10px;
+      padding: 14px;
       border: 1px solid #3a3a3a;
       border-radius: 8px;
       background: #2a2a2a;
@@ -79,7 +78,7 @@
 
     button {
       width: 100%;
-      padding: 20px;
+      padding: 14px;
       border-radius: 8px;
       border: none;
       cursor: pointer;
@@ -124,17 +123,17 @@
   <div class="container">
     <h1>LOG IN</h1>
 
-    <!-- Option 1: Email Entry / OTP Verification (replaces in-place without layout shift) -->
+    <!-- Option 1: Email Entry / OTP Verification -->
     <div id="emailBlock" class="block">
       <!-- Step 1: Purchase Email Entry -->
-      <div id="step1" style="display: flex; flex-direction: column; gap: 10px;">
-        <label for="email">Purchase Email</label>
+      <div id="step1" style="display: flex; flex-direction: column; gap: 12px;">
+        <label for="email">Your Purchase Email</label>
         <input type="email" id="email" placeholder="you@example.com" />
         <button id="sendOtpBtn" class="primary">Send Login Code</button>
       </div>
 
-      <!-- Step 2: Login Code Entry (Identical size) -->
-      <div id="step2" style="display: none; flex-direction: column; gap: 10px;">
+      <!-- Step 2: Login Code Entry -->
+      <div id="step2" style="display: none; flex-direction: column; gap: 12px;">
         <label for="otp">Enter 6-Digit Login Code</label>
         <input type="text" id="otp" placeholder="123456" maxlength="6" />
         <button id="verifyOtpBtn" class="primary">Log In</button>
@@ -145,11 +144,11 @@
 
     <!-- Option 2: Google Sign-In -->
     <div id="googleBlock" class="block">
-      <p class="helper-text">If your Purchase Email is a Google Email</p>
       <button id="googleBtn" class="google">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;" />
         Log in with Google
       </button>
+      <p class="helper-text">Use the Google account associated with your Purchase Email</p>
     </div>
 
     <div id="errMsg" class="error-message"></div>
