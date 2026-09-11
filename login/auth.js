@@ -6,7 +6,7 @@ const GOOGLE_PROVIDER = new GoogleAuthProvider();
 
 export async function requestOTP(EMAIL) {
   if (!EMAIL || !EMAIL.includes("@")) {
-    throw new Error("Please Enter your Purchase Email");
+    throw new Error("Enter your Purchase Email");
   }
 
   GENERATED_OTP = Math.floor(100000 + Math.random() * 900000).toString();
