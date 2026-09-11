@@ -37,6 +37,26 @@
       font-size: 0.875rem;
       color: #94a3b8;
     }
+    .sent-notice {
+      font-size: 0.75rem;
+      color: #94a3b8;
+      margin: -0.25rem 0 0.75rem 0;
+    }
+    .change-email-btn {
+      background: none;
+      border: none;
+      color: #38bdf8;
+      padding: 0;
+      font-size: 0.75rem;
+      text-decoration: underline;
+      cursor: pointer;
+      width: auto;
+      display: inline;
+    }
+    .change-email-btn:hover {
+      background: none;
+      color: #7dd3fc;
+    }
     input {
       width: 100%;
       padding: 0.75rem;
@@ -93,7 +113,7 @@
 <body>
 
 <div class="login-card">
-  <h2>Course Login</h2>
+  <h2>Welcome Back</h2>
 
   <button id="googleBtn" class="google-btn">
     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;">
@@ -103,15 +123,19 @@
   <div class="divider">— OR —</div>
 
   <div id="step1" class="form-group">
-    <label for="email">Email Address</label>
+    <label for="email">Email</label>
     <input type="email" id="email" placeholder="you@example.com">
     <button id="sendOtpBtn">Send Login Code</button>
   </div>
 
   <div id="step2" class="form-group step-2">
-    <label for="otp">Enter 6-Digit OTP</label>
+    <label for="otp">Enter 6-Digit Login Code</label>
+    <div class="sent-notice">
+      Sent to <span id="sentEmailDisplay" style="color: #f8fafc;"></span> 
+      (<button type="button" id="changeEmailBtn" class="change-email-btn">Change</button>)
+    </div>
     <input type="text" id="otp" placeholder="123456" maxlength="6">
-    <button id="verifyOtpBtn">Verify & Access</button>
+    <button id="verifyOtpBtn">Log In</button>
   </div>
 
   <div id="errMsg" class="error-message"></div>
@@ -128,6 +152,8 @@
   const STEP1 = document.getElementById("step1");
   const STEP2 = document.getElementById("step2");
   const ERR_MSG = document.getElementById("errMsg");
+  const SENT_EMAIL_DISPLAY = document.getElementById("sentEmailDisplay");
+  const CHANGE_EMAIL_BTN = document.getElementById("changeEmailBtn");
 
   function showError(msg) {
     ERR_MSG.innerText = msg;
@@ -154,21 +180,31 @@
     clearError();
     const email = EMAIL_INPUT.value.trim();
     if (!email) {
-      showError("Please enter your email address.");
+      showError("Please enter your email address");
       return;
     }
 
     try {
       SEND_OTP_BTN.disabled = true;
-      SEND_OTP_BTN.innerText = "Sending...";
+      SEND_OTP_BTN.innerText = "Sending Login Code...";
       await requestOTP(email);
+      
+      SENT_EMAIL_DISPLAY.innerText = email;
       STEP1.style.display = "none";
       STEP2.style.display = "block";
     } catch (err) {
       showError(err.message);
+    } finally {
       SEND_OTP_BTN.disabled = false;
       SEND_OTP_BTN.innerText = "Send Login Code";
     }
+  });
+
+  CHANGE_EMAIL_BTN.addEventListener("click", () => {
+    clearError();
+    OTP_INPUT.value = "";
+    STEP2.style.display = "none";
+    STEP1.style.display = "block";
   });
 
   VERIFY_OTP_BTN.addEventListener("click", async () => {
@@ -177,18 +213,18 @@
     const otp = OTP_INPUT.value.trim();
 
     if (!otp || otp.length !== 6) {
-      showError("Please enter a valid 6-digit code.");
+      showError("Please enter your 6-digit Login Code.");
       return;
     }
 
     try {
       VERIFY_OTP_BTN.disabled = true;
-      VERIFY_OTP_BTN.innerText = "Verifying...";
+      VERIFY_OTP_BTN.innerText = "Logging in...";
       await verifyOTPAndLogin(email, otp);
     } catch (err) {
       showError(err.message);
       VERIFY_OTP_BTN.disabled = false;
-      VERIFY_OTP_BTN.innerText = "Verify & Access";
+      VERIFY_OTP_BTN.innerText = "Log In";
     }
   });
 </script>
