@@ -6,45 +6,66 @@
   <title>Login - Course Platform</title>
 
   <style>
-    /* Force browser default theme rendering to light mode */
+    /* Force browser color scheme lock */
     :root {
-      color-scheme: light;
-      --bg-page: #311b92;
-      --bg-container: #1c1c1c;
-      --bg-card: #141414;
-      --bg-block: #181818;
-      --bg-input: #2a2a2a;
-      --bg-btn: #0284c7;
-      --bg-btn-hover: #0369a1;
-      --text-white: #ffffff;
-      --text-muted: #94a3b8;
-      --border-card: #333333;
-      --border-block: #808080;
-      --border-input: #3a3a3a;
-      --color-error: #ef4444;
+      color-scheme: normal !important;
     }
 
-    /* Force background and text colors to resist OS/browser dark mode forcing */
-    html {
-      background-color: var(--bg-page) !important;
-      color: var(--text-white) !important;
-    }
-
-    body {
+    /* Base setup forcing exact colors in all media schemes */
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background-color: var(--bg-page) !important;
-      color: var(--text-white) !important;
+      background-color: #311b92 !important;
+      color: #ffffff !important;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
 
+    /* Force identical styles on system light and dark themes */
+    @media (prefers-color-scheme: light), (prefers-color-scheme: dark) {
+      html, body {
+        background-color: #311b92 !important;
+        color: #ffffff !important;
+      }
+
+      .container {
+        background-color: #1c1c1c !important;
+        color: #ffffff !important;
+      }
+
+      .auth-card {
+        background-color: #141414 !important;
+        border-color: #333333 !important;
+      }
+
+      .block {
+        background-color: #181818 !important;
+        border-color: #808080 !important;
+      }
+
+      input {
+        background-color: #2a2a2a !important;
+        color: #ffffff !important;
+        border-color: #3a3a3a !important;
+      }
+
+      button.primary, button.google {
+        background-color: #0284c7 !important;
+        color: #ffffff !important;
+      }
+
+      label, .helper-text {
+        color: #94a3b8 !important;
+      }
+    }
+
     .container {
       width: 450px;
       padding: 28px;
-      background-color: var(--bg-container) !important;
+      background-color: #1c1c1c !important;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       display: flex;
@@ -58,14 +79,14 @@
       margin: 0;
       font-size: 22px;
       letter-spacing: 0.5px;
-      color: var(--text-white) !important;
+      color: #ffffff !important;
     }
 
     .auth-card {
-      border: 1px solid var(--border-card);
+      border: 1px solid #333333 !important;
       border-radius: 12px;
       padding: 20px;
-      background-color: var(--bg-card) !important;
+      background-color: #141414 !important;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -73,13 +94,13 @@
     }
 
     .block {
-      border: 1px solid var(--border-block);
+      border: 1px solid #808080 !important;
       border-radius: 12px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background-color: var(--bg-block) !important;
+      background-color: #181818 !important;
       box-sizing: border-box;
       min-height: 150px;
       justify-content: center;
@@ -88,7 +109,7 @@
     label, .helper-text {
       display: block;
       font-size: 1rem;
-      color: var(--text-muted) !important;
+      color: #94a3b8 !important;
       margin: 0;
     }
 
@@ -99,19 +120,28 @@
     input {
       width: 100%;
       padding: 14px;
-      border: 1px solid var(--border-input);
+      border: 1px solid #3a3a3a !important;
       border-radius: 8px;
-      background-color: var(--bg-input) !important;
-      color: var(--text-white) !important;
+      background-color: #2a2a2a !important;
+      color: #ffffff !important;
       box-sizing: border-box;
       font-size: 1rem;
       -webkit-appearance: none;
       appearance: none;
     }
 
+    /* Fix chrome/safari autofill theme overrides */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #2a2a2a inset !important;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+
     input:focus {
       outline: none;
-      border-color: #4a90e2;
+      border-color: #4a90e2 !important;
     }
 
     button {
@@ -127,26 +157,17 @@
       appearance: none;
     }
 
-    .primary {
-      background-color: var(--bg-btn) !important;
-      color: var(--text-white) !important;
+    .primary, .google {
+      background-color: #0284c7 !important;
+      color: #ffffff !important;
     }
 
-    .primary:hover {
-      background-color: var(--bg-btn-hover) !important;
-    }
-
-    .google {
-      background-color: var(--bg-btn) !important;
-      color: var(--text-white) !important;
-    }
-
-    .google:hover {
-      background-color: var(--bg-btn-hover) !important;
+    .primary:hover, .google:hover {
+      background-color: #0369a1 !important;
     }
 
     .error-message {
-      color: var(--color-error) !important;
+      color: #ef4444 !important;
       font-size: 1rem;
       text-align: center;
       display: none;
