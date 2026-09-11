@@ -129,7 +129,7 @@
     <button id="sendOtpBtn">Send Login Code</button>
 
     <div class="divider">— OR —</div>
-    <p class="helper-text">If your purchase email is a Google email.</p>
+    <p class="helper-text">If your Purchase Email is a Google Email</p>
 
     <button id="googleBtn" class="google-btn">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google logo" style="width: 18px; height: 18px;">
@@ -201,6 +201,7 @@
       SENT_EMAIL_DISPLAY.innerText = email;
       STEP1.style.display = "none";
       STEP2.style.display = "block";
+      OTP_INPUT.focus();
     } catch (err) {
       showError(err.message);
     } finally {
@@ -214,6 +215,7 @@
     OTP_INPUT.value = "";
     STEP2.style.display = "none";
     STEP1.style.display = "block";
+    EMAIL_INPUT.focus();
   });
 
   VERIFY_OTP_BTN.addEventListener("click", async () => {
