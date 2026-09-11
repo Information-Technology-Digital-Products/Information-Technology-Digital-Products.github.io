@@ -609,20 +609,6 @@ html, body {
   pointer-events: none;
 }
 
-.pricing-block .header-audience:first-child {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.4;
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 0px;
-  border-radius: 100px;
-  margin-bottom: 20px;
-}
 
 .pricing-block .header-eyebrow {
   font-size: 17px;
