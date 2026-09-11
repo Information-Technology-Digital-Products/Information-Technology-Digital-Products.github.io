@@ -6,21 +6,66 @@
   <title>Login - Course Platform</title>
 
   <style>
-    body {
+    /* Force browser color scheme lock */
+    :root {
+      color-scheme: normal !important;
+    }
+
+    /* Base setup forcing exact colors in all media schemes */
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background: #311b92;
-      color: #ffffff;
+      background-color: #311b92 !important;
+      color: #ffffff !important;
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
     }
 
+    /* Force identical styles on system light and dark themes */
+    @media (prefers-color-scheme: light), (prefers-color-scheme: dark) {
+      html, body {
+        background-color: #311b92 !important;
+        color: #ffffff !important;
+      }
+
+      .container {
+        background-color: #1c1c1c !important;
+        color: #ffffff !important;
+      }
+
+      .auth-card {
+        background-color: #141414 !important;
+        border-color: #333333 !important;
+      }
+
+      .block {
+        background-color: #181818 !important;
+        border-color: #808080 !important;
+      }
+
+      input {
+        background-color: #2a2a2a !important;
+        color: #ffffff !important;
+        border-color: #3a3a3a !important;
+      }
+
+      button.primary, button.google {
+        background-color: #0284c7 !important;
+        color: #ffffff !important;
+      }
+
+      label, .helper-text {
+        color: #94a3b8 !important;
+      }
+    }
+
     .container {
       width: 450px;
       padding: 28px;
-      background: #1c1c1c;
+      background-color: #1c1c1c !important;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       display: flex;
@@ -34,13 +79,14 @@
       margin: 0;
       font-size: 22px;
       letter-spacing: 0.5px;
+      color: #ffffff !important;
     }
 
     .auth-card {
-      border: 1px solid #333333;
+      border: 1px solid #333333 !important;
       border-radius: 12px;
       padding: 20px;
-      background: #141414;
+      background-color: #141414 !important;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -48,13 +94,13 @@
     }
 
     .block {
-      border: 1px solid gray;
+      border: 1px solid #808080 !important;
       border-radius: 12px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background: #181818;
+      background-color: #181818 !important;
       box-sizing: border-box;
       min-height: 150px;
       justify-content: center;
@@ -63,7 +109,7 @@
     label, .helper-text {
       display: block;
       font-size: 1rem;
-      color: #94a3b8;
+      color: #94a3b8 !important;
       margin: 0;
     }
 
@@ -74,17 +120,28 @@
     input {
       width: 100%;
       padding: 14px;
-      border: 1px solid #3a3a3a;
+      border: 1px solid #3a3a3a !important;
       border-radius: 8px;
-      background: #2a2a2a;
-      color: #ffffff;
+      background-color: #2a2a2a !important;
+      color: #ffffff !important;
       box-sizing: border-box;
       font-size: 1rem;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    /* Fix chrome/safari autofill theme overrides */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #2a2a2a inset !important;
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     input:focus {
       outline: none;
-      border-color: #4a90e2;
+      border-color: #4a90e2 !important;
     }
 
     button {
@@ -96,31 +153,26 @@
       font-weight: bold;
       font-size: 1rem;
       transition: background-color 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
-    .primary {
-      background: #0284c7;
-      color: #ffffff;
+    .primary, .google {
+      background-color: #0284c7 !important;
+      color: #ffffff !important;
     }
 
-    .primary:hover {
-      background: #0369a1;
-    }
-
-    .google {
-      background: #0284c7;
-      color: #ffffff;
-    }
-
-    .google:hover {
-      background: #0369a1;
+    .primary:hover, .google:hover {
+      background-color: #0369a1 !important;
     }
 
     .error-message {
-      color: #ef4444;
+      color: #ef4444 !important;
       font-size: 1rem;
       text-align: center;
-      display: none;
+      min-height: 1.2em;
+      visibility: hidden;
+      margin: 0;
     }
   </style>
 </head>
@@ -160,7 +212,7 @@
       </div>
     </div>
 
-    <div id="errMsg" class="error-message"></div>
+    <div id="errMsg" class="error-message">&nbsp;</div>
   </div>
 
 <script type="module">
@@ -177,12 +229,12 @@
 
   function showError(msg) {
     ERR_MSG.innerText = msg;
-    ERR_MSG.style.display = "block";
+    ERR_MSG.style.visibility = "visible";
   }
 
   function clearError() {
-    ERR_MSG.innerText = "";
-    ERR_MSG.style.display = "none";
+    ERR_MSG.innerHTML = "&nbsp;";
+    ERR_MSG.style.visibility = "hidden";
   }
 
   function redirectAfterLogin() {
