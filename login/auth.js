@@ -6,7 +6,7 @@ const GOOGLE_PROVIDER = new GoogleAuthProvider();
 
 export async function requestOTP(EMAIL) {
   if (!EMAIL || !EMAIL.includes("@")) {
-    throw new Error("Please enter a valid email address.");
+    throw new Error("Please Enter your Purchase Email");
   }
 
   GENERATED_OTP = Math.floor(100000 + Math.random() * 900000).toString();
@@ -20,7 +20,7 @@ export async function requestOTP(EMAIL) {
   const DATA = await RESPONSE.json();
 
   if (!RESPONSE.ok) {
-    throw new Error(DATA.error || "Failed to send OTP.");
+    throw new Error(DATA.error || "Failed to send Login Code");
   }
 
   return true;
@@ -28,7 +28,7 @@ export async function requestOTP(EMAIL) {
 
 export async function verifyOTPAndLogin(EMAIL, ENTERED_OTP) {
   if (ENTERED_OTP !== GENERATED_OTP) {
-    throw new Error("Invalid OTP code. Please try again.");
+    throw new Error("Invalid Login Code");
   }
 
   const FINAL_TIER = window.TEST_TIER || "lesson1";
@@ -56,6 +56,6 @@ export async function loginWithGoogle() {
 
     window.location.href = "/lesson1/lesson1.html";
   } catch (ERR) {
-    throw new Error(ERR.message || "Google sign-in failed.");
+    throw new Error(ERR.message || "Google sign-in failed");
   }
 }
