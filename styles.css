@@ -16,31 +16,26 @@
   --orange-lt:    #fff3eb;
   --red:          #c0392b;
   --red-lt:       #fdecea;
-
   /* Modern Glass & Accent Tokens */
-  --card-bg:      linear-gradient(160deg, rgba(13, 19, 33, 0.99) 0%, rgba(9, 13, 24, 0.99) 100%);
-  --card-border:  rgba(255, 255, 255, 0.12);
+  --card-bg:      rgba(22, 31, 48, 0.75);
+  --card-border:  rgba(255, 255, 255, 0.1);
   --accent-cyan:  #38bdf8;
   --accent-emerald:#34d399;
   --text-main:    #f8fafc;
   --text-muted:   #94a3b8;
   --glass-glow:   rgba(56, 189, 248, 0.15);
-
   /* Color Palette for Buttons & Controls */
   --color-blue: #007bff;
   --color-green: #34d399;
-
   /* Sizing & Responsive Breakpoint Variables */
   --content-max-width: 768px;
   --sphere-diameter: 10px;
   --second-diameter: 40px;
-
   /* Explicit State Mappings (Transparent Alternative) */
   --border-off-color: transparent !important;
   --border-on-color:  transparent !important;
   --sphere-off-color: transparent !important;
   --sphere-on-color:  transparent !important;
-  
 }
 
 @media (prefers-color-scheme: light) {
@@ -68,6 +63,7 @@
   font-size: 17px; 
   line-height: 1.75; 
 }
+
 body { 
   background: var(--bg); 
   color: var(--black); 
@@ -80,6 +76,7 @@ p:not(.callout p):not(.formula-block p) {
   padding-left: 0px;
   padding-right: 0px;
 }
+
 strong { font-weight: 900; }
 em { font-style: italic; }
 
@@ -115,7 +112,6 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
 .callout-success .callout-title { color: var(--green); }
 .callout-error .callout-title  { color: var(--red); }
 .callout-info .callout-title    { color: var(--blue); }
-
 .formula-block { background: #111111; color: #ffffff; border-radius: 16px; padding: 20px 0px; margin: 16px 0; font-weight: 700; line-height: 2; border-left: 5px solid var(--green); }
 .formula-block-label { color: var(--green); font-weight: 900; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
 .formula-block p { padding-left: 0 !important; padding-right: 0 !important; margin-bottom: 4px; }
@@ -152,27 +148,22 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   border-radius: 16px; 
   cursor: pointer; 
   transition: background 0.2s, transform 0.1s ease; 
-
   /* Default pulsing animation */
   animation: pulse-run 2s infinite;
-
   /* Removes mobile tap box and focus outlines */
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
-
 .pythoncode button:focus,
 .pythoncode button:active {
   outline: none;
   -webkit-tap-highlight-color: transparent;
   transform: scale(0.97);
 }
-
 /* Class to stop animation after clicking RUN */
 .pythoncode button.is-ran {
   animation: none !important;
 }
-
 @keyframes pulse-run {
   0% {
     box-shadow: 0 0 0 0 rgba(0, 255, 0, 0.7);
@@ -197,7 +188,6 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
   }
 }
-
 .copy_btn {
   position: relative;
   display: flex;
@@ -215,15 +205,12 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
   flex-shrink: 0;
   animation: pulse-copy 2s infinite;
-
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
-
 .copy_btn.is-copied {
   animation: none !important;
 }
-
 .copy_btn:focus,
 .copy_btn:active {
   outline: none;
@@ -239,12 +226,10 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   color: var(--green-lt-lt) !important;
   border-color: #2d8a4e !important;
 }
-
 /* Hide any duplicate pseudo-element messages */
 .copy_btn::before {
   display: none !important;
 }
-
 /* Single tooltip pop-up box */
 .copy_btn::after {
   content: attr(data-tooltip);
@@ -263,12 +248,10 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   transition: opacity 0.2s ease, transform 0.2s ease;
   z-index: 10;
 }
-
 /* Show tooltip ONLY when active class is applied via JS */
 .copy_btn.is-tooltip-visible::after {
   opacity: 1 !important;
 }
-
 .code-row {
   display: flex;
   align-items: center;
@@ -281,7 +264,6 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   opacity: 1;
   pointer-events: auto;
 }
-
 .textarea-wrap {
   position: relative;
   cursor: pointer;
@@ -305,10 +287,8 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
 .inner-heading { font-weight: 900; font-size: 19px; margin: 24px 0 10px; }
 .prose-list { margin: 10px 0 14px 24px; }
 .prose-list li { margin-bottom: 8px; font-weight: 400; }
-
 .neuron-emoji { font-size: 60px; text-align: center; margin: 10px 0 4px; line-height: 1.1; }
 .neuron-label { text-align: center; font-weight: 900; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
-
 .pricing-sub { color: #cccccc; font-weight: 700; margin-bottom: 4px; }
 .pricing-price { font-weight: 900; color: var(--yellow); font-size: 20px; margin-top: 10px; }
 
@@ -321,40 +301,33 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
   font-size: 17px; 
   padding: 12px 0px; 
   border-radius: 16px; 
-
   letter-spacing: 0.02em;
   position: relative;
   cursor: pointer;
   animation: pulse-pill 2s infinite;
   transition: background 0.3s ease, transform 0.1s ease;
-
   -webkit-tap-highlight-color: transparent;
   outline: none;
 }
-
 .price-pill:focus,
 .price-pill:active { 
   outline: none; 
   -webkit-tap-highlight-color: transparent;
 }
-
 .price-pill:active {
   transform: scale(0.97); 
 }
-
 /* Apply hover gradient shift only on desktop/mouse devices */
 @media (hover: hover) {
   .price-pill:hover { 
     background: linear-gradient(135deg, #218838 0%, #004d00 100%); 
   }
 }
-
 /* Reset back to default initial gradient when clicked */
 .price-pill:focus:not(:focus-visible) {
   background: linear-gradient(135deg, #28a745 0%, #006400 100%);
   transform: none;
 }
-
 @keyframes pulse-pill {
   0% {
     box-shadow: 0 0 0 0 rgba(147, 196, 125, 0.7);
@@ -366,7 +339,6 @@ header { background: #111111; color: var(--yellow); padding: 0px 0px 0px; text-a
     box-shadow: 0 0 0 0 rgba(147, 196, 125, 0);
   }
 }
-
 .divider { border: none; border-top: 2px dashed var(--border); margin: 24px 0; }
 .footer { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 0px 40px; gap: 16px; border-top: 1px solid var(--border); margin-top: 60px; }
 .footer-logo { 
@@ -397,7 +369,6 @@ html, body {
   height: 100%;
   margin: 0;
 }
-
 .container {
   display: flex;
   justify-content: center;
@@ -421,19 +392,15 @@ html, body {
   align-items: center;
   justify-content: center;
   transition: background 0.3s ease, transform 0.1s ease, border-color 0.3s ease;
-
   /* Active dynamic color assignments (Default OFF State) */
   --current-border-color: var(--border-off-color);
   --sphere-color:         var(--sphere-off-color);
   --pulse-color:          rgba(0, 123, 255, 0.6);
-
   -webkit-tap-highlight-color: transparent;
   outline: none;
-
   /* Fixed positioning during scroll */
   position: fixed;
   z-index: 1000;
-
   /* Mobile Default: Bottom-right corner with edge spacing */
   bottom: 20px;
   right: 20px;
@@ -470,12 +437,10 @@ html, body {
   pointer-events: none;
   animation: pulse-to-second-diameter 2s infinite ease-out;
 }
-
 .round-button:focus {
   outline: none;
   -webkit-tap-highlight-color: transparent;
 }
-
 .round-button:focus-visible {
   outline: 2px solid var(--current-border-color);
 }
@@ -542,38 +507,40 @@ html, body {
 .round-button.is-on::after {
   background-color: var(--green); /* ON background: green */
 }
-
 .round-button.is-tooltip-visible::after {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
 
-/* ── PRICING CARD ── */
+/* ── PRICING CARD (THEME-INDEPENDENT / SOTA) ── */
 .pricing-block {
   position: relative;
   width: 100%;
   max-width: 340px;
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 32px 0px;
+  /* Forced dark glass – never changes with light/dark mode */
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  padding: 32px 0;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-              0 0 80px var(--glass-glow),
-              inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 0 80px rgba(56, 189, 248, 0.12);
   overflow: hidden;
-  isolation: isolate;
-  color-scheme: dark;
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
               box-shadow 0.4s ease;
+  color: #f8fafc; /* base text always light */
 }
 
 .pricing-block:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
-              0 0 100px rgba(56, 189, 248, 0.25);
+  transform: translateY(-8px);
+  box-shadow:
+    0 35px 70px -15px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 120px rgba(56, 189, 248, 0.22);
 }
 
 .pricing-block::before {
@@ -583,105 +550,112 @@ html, body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.12), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.15), transparent 65%);
   pointer-events: none;
 }
 
+/* Audience pill (top) */
 .pricing-block .header-audience:first-child {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.4;
-  color: var(--text-main);
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 0px;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 8px 18px;
   border-radius: 100px;
   margin-bottom: 20px;
 }
 
+/* Eyebrow */
 .pricing-block .header-eyebrow {
-  font-size: 17px;
+  font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--accent-cyan);
-  margin-bottom: 8px;
+  letter-spacing: 0.14em;
+  color: #38bdf8; /* fixed cyan */
+  margin-bottom: 10px;
 }
 
+/* Main title – always high contrast */
 .pricing-title {
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, var(--yellow) 100%);
+  background: linear-gradient(135deg, #ffffff 15%, #ffd166 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: #ffd166; /* fallback */
 }
 
+/* Green title (TRANSFORMERS etc.) – always vivid */
 .green-title {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, var(--green) 100%);
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff 10%, #34d399 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: #34d399; /* fallback */
 }
 
+/* Blue variant kept for consistency */
 .blue-title {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, var(--blue) 100%);
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff 10%, #38bdf8 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: #38bdf8;
 }
 
+/* Subtitle */
 .pricing-block .header-subtitle {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.4;
-  color: var(--text-muted);
-  margin-bottom: 24px;
+  line-height: 1.45;
+  color: #94a3b8;
+  margin-bottom: 22px;
 }
 
-.pricing-block {
-  position: relative;
-  width: 100%;
-  max-width: 340px;
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
-  border-radius: 16px;
-  padding: 32px 0px;
-  text-align: center;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
-              0 0 80px var(--glass-glow),
-              inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  overflow: hidden;
-  isolation: isolate;
-  color-scheme: only light;   /* was: dark — locks this block out of OS/browser auto-dark inversion */
-  forced-color-adjust: none;  /* also opts out of Windows High-Contrast forced recoloring */
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-              box-shadow 0.4s ease;
+/* Bottom audience pill */
+.pricing-block .header-audience:last-of-type {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  padding: 10px 16px;
+  border-radius: 14px;
+  margin-top: 20px;
 }
 
+/* Image container */
 .img-block {
   position: relative;
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  margin: 16px 0;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin: 18px 0;
   text-align: center;
 }
 
@@ -695,13 +669,28 @@ html, body {
 }
 
 .pricing-block:hover .img-block img {
-  transform: scale(1.00);
+  transform: scale(1.03);
+}
+
+/* Supporting text inside pricing blocks */
+.pricing-sub {
+  color: #cbd5e1 !important;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.pricing-price {
+  font-weight: 900;
+  color: #ffd166 !important;
+  font-size: 22px;
+  margin-top: 12px;
 }
 
 .pricing-block .family {
   color: #94a3b8 !important;
-  font-size: 17px !important;
+  font-size: 15px !important;
   margin-top: 8px !important;
+  font-weight: 600;
 }
 
 /* ── CENTER SCROLL FOCUS ── */
@@ -782,8 +771,8 @@ html, body {
     padding-right: 20px;
   }
   .pricing-block {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
   .pricing-block .header-audience:first-child,
   .pricing-block .header-audience:last-of-type {
