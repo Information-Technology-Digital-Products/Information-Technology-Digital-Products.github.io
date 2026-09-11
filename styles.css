@@ -728,6 +728,12 @@ html, body {
   margin-top: 8px !important;
 }
 
+.pricing-block .audience {
+  color: white !important;
+  font-size: 17px !important;
+  margin-top: 8px !important;
+}
+
 /* ── CENTER SCROLL FOCUS ── */
 .focus-line-target {
   background-color: var(--yellow) !important;
