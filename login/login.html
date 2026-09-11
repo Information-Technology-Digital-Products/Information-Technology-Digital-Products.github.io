@@ -6,16 +6,35 @@
   <title>Login - Course Platform</title>
 
   <style>
-    /* Force browser to enforce fixed dark scheme defaults and prevent light mode overrides */
+    /* Force browser default theme rendering to light mode */
     :root {
-      color-scheme: dark;
+      color-scheme: light;
+      --bg-page: #311b92;
+      --bg-container: #1c1c1c;
+      --bg-card: #141414;
+      --bg-block: #181818;
+      --bg-input: #2a2a2a;
+      --bg-btn: #0284c7;
+      --bg-btn-hover: #0369a1;
+      --text-white: #ffffff;
+      --text-muted: #94a3b8;
+      --border-card: #333333;
+      --border-block: #808080;
+      --border-input: #3a3a3a;
+      --color-error: #ef4444;
+    }
+
+    /* Force background and text colors to resist OS/browser dark mode forcing */
+    html {
+      background-color: var(--bg-page) !important;
+      color: var(--text-white) !important;
     }
 
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #311b92 !important;
-      color: #ffffff !important;
+      background-color: var(--bg-page) !important;
+      color: var(--text-white) !important;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -25,7 +44,7 @@
     .container {
       width: 450px;
       padding: 28px;
-      background-color: #1c1c1c !important;
+      background-color: var(--bg-container) !important;
       border-radius: 16px;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
       display: flex;
@@ -39,14 +58,14 @@
       margin: 0;
       font-size: 22px;
       letter-spacing: 0.5px;
-      color: #ffffff !important;
+      color: var(--text-white) !important;
     }
 
     .auth-card {
-      border: 1px solid #333333;
+      border: 1px solid var(--border-card);
       border-radius: 12px;
       padding: 20px;
-      background-color: #141414 !important;
+      background-color: var(--bg-card) !important;
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -54,13 +73,13 @@
     }
 
     .block {
-      border: 1px solid #808080;
+      border: 1px solid var(--border-block);
       border-radius: 12px;
       padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      background-color: #181818 !important;
+      background-color: var(--bg-block) !important;
       box-sizing: border-box;
       min-height: 150px;
       justify-content: center;
@@ -69,7 +88,7 @@
     label, .helper-text {
       display: block;
       font-size: 1rem;
-      color: #94a3b8 !important;
+      color: var(--text-muted) !important;
       margin: 0;
     }
 
@@ -80,12 +99,14 @@
     input {
       width: 100%;
       padding: 14px;
-      border: 1px solid #3a3a3a;
+      border: 1px solid var(--border-input);
       border-radius: 8px;
-      background-color: #2a2a2a !important;
-      color: #ffffff !important;
+      background-color: var(--bg-input) !important;
+      color: var(--text-white) !important;
       box-sizing: border-box;
       font-size: 1rem;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     input:focus {
@@ -102,28 +123,30 @@
       font-weight: bold;
       font-size: 1rem;
       transition: background-color 0.2s ease;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .primary {
-      background-color: #0284c7 !important;
-      color: #ffffff !important;
+      background-color: var(--bg-btn) !important;
+      color: var(--text-white) !important;
     }
 
     .primary:hover {
-      background-color: #0369a1 !important;
+      background-color: var(--bg-btn-hover) !important;
     }
 
     .google {
-      background-color: #0284c7 !important;
-      color: #ffffff !important;
+      background-color: var(--bg-btn) !important;
+      color: var(--text-white) !important;
     }
 
     .google:hover {
-      background-color: #0369a1 !important;
+      background-color: var(--bg-btn-hover) !important;
     }
 
     .error-message {
-      color: #ef4444 !important;
+      color: var(--color-error) !important;
       font-size: 1rem;
       text-align: center;
       display: none;
