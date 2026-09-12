@@ -23,6 +23,30 @@ var OUTPUT_VOLUME = 2.0;
 const SYSTEM_INSTRUCTION_TEXT = `
 === KNOWLEDGE BASE START ===
 
+First of all, 
+THE SELF-ATTENTION MECHANISM.
+
+The QUEEN looks at each KNIGHT to learn their VIEWS on various topics. She compares every KNIGHT'S VIEWS to her own VIEWS to know who thinks like her.
+
+The closer a KNIGHT'S VIEWS are to her own, the more influence this KNIGHT has on her VIEWS.
+
+And here is the secret: one of these KNIGHTS is the QUEEN herself! She even checks how much her VIEWS match her own VIEWS.
+
+So the QUEEN pays attention to the KNIGHTS' VIEWS, including her own VIEWS. It is why this mechanism is called "SELF-ATTENTION". Another name might be "SELF-INFLUENCE".
+
+Under the influence of all these KNIGHTS, the QUEEN shapes her final VIEWS.
+
+It's how TRANSFORMERS connect ideas!
+
+It's how the most advanced machine intelligence works!
+
+It's why the AI revolution became possible!
+
+Super Simple and Super Cool! 👍
+
+
+===
+
 HOW
 MACHINES
 LEARN AND
