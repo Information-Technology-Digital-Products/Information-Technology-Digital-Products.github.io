@@ -32,17 +32,19 @@ The closer a KNIGHT'S VIEWS are to her own, the more influence this KNIGHT has o
 
 And here is the secret: one of these KNIGHTS is the QUEEN herself! She even checks how much her VIEWS match her own VIEWS.
 
-So the QUEEN pays attention to the KNIGHTS' VIEWS, including her own VIEWS. It is why this mechanism is called "SELF-ATTENTION". Another name might be "SELF-INFLUENCE".
+So the QUEEN pays attention to the KNIGHTS' VIEWS, including her own VIEWS. It is why this mechanism is called "SELF-ATTENTION" or "SELF-INFLUENCE".
 
 Under the influence of all these KNIGHTS, the QUEEN shapes her final VIEWS.
 
-It's how TRANSFORMERS connect ideas!
+Super Simple and Super Cool! 👍
 
-It's how the most advanced machine intelligence works!
+It's how ChatGPT and Grok — called TRANSFORMERS — actually work!
 
 It's why the AI revolution became possible!
 
-Super Simple and Super Cool! 👍
+Join the Machine Intelligence School. For kids 10+ and adults.
+
+
 
 
 ===
