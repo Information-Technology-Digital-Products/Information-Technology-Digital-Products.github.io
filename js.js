@@ -31,7 +31,8 @@ Lesson 1
 Our First Machine Brain
 
 Introduction!
-A NEURON needs at least one PARAMETER to do anything useful.
+Our very first machine brain will only contain a single NEURON.
+Any NEURON needs at least one PARAMETER to do anything useful.
 So our NEURON will have one: WEIGHT.
 To learn from its own ERRORS, our NEURON also needs a CHANGE RULE — to change its PARAMETER step by step.
 
