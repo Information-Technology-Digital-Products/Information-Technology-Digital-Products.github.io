@@ -572,55 +572,36 @@ html, body {
 
 
 
-
-/* ── PRICING SECTION & CONTAINERS ── */
-.pricing-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-
-.pricing-container + .pricing-container {
-  margin-top: 24px;
-}
-
-/* ── PRICING CARD BASE ── */
-.pricing-card {
+/* ── PRICING CARD ── */
+.pricing-block {
   position: relative;
   width: 100%;
+  max-width: 340px;
   background: var(--card-bg);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   border-radius: 16px;
-  padding: 32px 20px;
+  padding: 32px 0px;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4),
               0 0 80px var(--glass-glow),
               inset 0 1px 0 rgba(255, 255, 255, 0.06);
   overflow: hidden;
   isolation: isolate;
-  color-scheme: only light;
-  forced-color-adjust: none;
+  color-scheme: only light;   /* opt this block out of OS/browser auto-dark inversion */
+  forced-color-adjust: none;  /* opt out of Windows High-Contrast forced recoloring too */
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
               box-shadow 0.4s ease;
 }
 
-.pricing-card--lg {
-  max-width: 350px;
-}
-
-.pricing-card--sm {
-  max-width: 280px;
-}
-
-.pricing-card:hover {
+.pricing-block:hover {
   transform: translateY(-6px);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5),
               0 0 100px rgba(56, 189, 248, 0.25);
 }
 
-.pricing-card::before {
+.pricing-block::before {
   content: '';
   position: absolute;
   top: -50%;
@@ -631,24 +612,22 @@ html, body {
   pointer-events: none;
 }
 
-/* ── TYPOGRAPHY & ELEMENTS ── */
-.pricing-audience {
+.pricing-block .header-audience:first-child {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  width: 80%;
+  gap: 6px;
   font-size: 17px;
   font-weight: 700;
   line-height: 1.4;
   color: var(--text-main);
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
+  padding: 8px 0px;
   border-radius: 100px;
-  margin: 0 auto 20px;
+  margin-bottom: 20px;
 }
 
-.pricing-eyebrow {
+.pricing-block .header-eyebrow {
   font-size: 17px;
   font-weight: 800;
   text-transform: uppercase;
@@ -657,24 +636,49 @@ html, body {
   margin-bottom: 8px;
 }
 
-/* Unified title gradient rule utilizing CSS custom properties */
 .pricing-title {
   font-size: 28px;
   font-weight: 900;
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 12px;
-  background: linear-gradient(135deg, #ffffff 0%, var(--title-color, var(--yellow)) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  /* Text gradient setup */
+  background: linear-gradient(135deg, #ffffff 0%, var(--yellow) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none;
 }
 
-.pricing-title--sm {
-  margin-top: 12px;
+.green-title {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  /* Text gradient setup */
+  background: linear-gradient(135deg, #ffffff 0%, var(--green) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none;
 }
 
-.pricing-subtitle {
+.blue-title {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  /* Text gradient setup */
+  background: linear-gradient(135deg, #ffffff 0%, var(--blue) 100%) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  text-shadow: none;
+}
+
+.pricing-block .header-subtitle {
   font-size: 17px;
   font-weight: 600;
   line-height: 1.4;
@@ -682,68 +686,58 @@ html, body {
   margin-bottom: 24px;
 }
 
-.pricing-card--sm .pricing-subtitle {
-  margin-bottom: 0;
-}
-
-.pricing-target {
+.pricing-block .header-ten {
   font-size: 17px;
   font-weight: 600;
   line-height: 1.4;
-  color: #ffffff;
+  color: white;
   margin-bottom: 24px;
 }
 
-.pricing-lessons {
-  color: #cccccc;
-  font-weight: 700;
-  font-size: 17px;
-  margin-top: 4px;
-}
-
-.pricing-highlight {
-  color: var(--yellow);
-}
-
-.pricing-price {
-  font-size: 28px;
-  font-weight: 900;
-  line-height: 1.15;
-  color: #ffffff;
-  margin-top: 8px;
-}
-
-.pricing-audience-sub {
-  color: #94a3b8;
-  font-size: 17px;
-  margin-top: 8px;
-}
-
-/* ── MEDIA BLOCK ── */
-.pricing-media {
-  position: relative;
-  width: 80%;
-  margin: 0 auto;
+.pricing-block .header-audience:last-of-type {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent-emerald);
+  background: rgba(52, 211, 153, 0.08);
+  border: 1px solid rgba(52, 211, 153, 0.2);
+  padding: 10px 0px;
+  border-radius: 16px;
+  margin-top: 20px;
+}
+
+
+.img-block {
+  position: relative;
+  width: 100%;
   border-radius: 16px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.05);
+
+  text-align: center;
 }
 
-.pricing-media img {
-  width: 100%;
-  max-width: 100%;
+.img-block img {
+  width: 100% !important;
+  max-width: 100% !important;
   height: auto;
   display: block;
   object-fit: cover;
   transition: transform 0.5s ease;
 }
 
-.pricing-card:hover .pricing-media img {
+.pricing-block:hover .img-block img {
   transform: scale(1.00);
+}
+
+.pricing-block .family {
+  color: #94a3b8 !important;
+  font-size: 17px !important;
+  margin-top: 8px !important;
 }
 
 
