@@ -30,13 +30,13 @@ in 45 seconds
 
 Voiceover:
 
-Ever wonder how AI thinks?
+Ever wonder how the machine thinks?
 
 Imagine a QUEEN and her KNIGHTS.
 
 The QUEEN looks at each KNIGHT to learn their VIEWS on various topics. She compares every KNIGHT'S VIEWS to her own to know who thinks like her.
 
-The closer a KNIGHT'S VIEWS are to her own, the more influence this KNIGHT has on her VIEWS.
+The closer a KNIGHT'S VIEWS are to her own, the more influence of this KNIGHT on her VIEWS.
 
 And here is the secret: one of these KNIGHTS is the QUEEN herself! So she also checks how much her VIEWS match her own VIEWS.
 
@@ -52,7 +52,7 @@ And it is why the AI revolution became possible!
 
 Know the SELF-ATTENTION mechanism in detail.
 
-Join the Machine Intelligence School. For Kids (10+) and Parents Together — or Any Individual.
+Join the Machine Intelligence School. For kids and parents together — or any individual.
 
 
 ===
