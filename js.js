@@ -396,6 +396,8 @@ async function startTalking() {
     const GEMINI_WS_URL = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1alpha.GenerativeService.BidiGenerateContentConstrained?access_token=${TOKEN}`;
     SOCKET = new WebSocket(GEMINI_WS_URL);
 
+
+
     SOCKET.onopen = () => {
       console.log("WebSocket connected to Gemini");
 
@@ -417,6 +419,16 @@ async function startTalking() {
           }
         }
       };
+
+      SOCKET.send(JSON.stringify(SETUP_PAYLOAD));
+    };
+
+
+
+
+
+
+
 
       SOCKET.send(JSON.stringify(SETUP_PAYLOAD));
 
@@ -582,12 +594,39 @@ function arrayBufferToBase64(BUFFER) {
 // =========================
 // SERVER AUDIO HANDLING
 // =========================
+
 function handleServerMessage(RAW_DATA) {
   let MESSAGE;
   try {
     MESSAGE = JSON.parse(RAW_DATA);
   } catch (E) {
     console.error("JSON parse error on message:", E, RAW_DATA);
+    return;
+  }
+
+  // Trigger initial greeting when setup completes
+  if (MESSAGE.setupComplete) {
+    console.log("Setup complete. Triggering teacher greeting...");
+    
+    const GREETING_PAYLOAD = {
+      clientContent: {
+        turns: [
+          {
+            role: "user",
+            parts: [
+              { text: "Hello! Please introduce yourself and start reading Lesson 1 according to your instructions." }
+            ]
+          }
+        ],
+        turnComplete: true
+      }
+    };
+
+    if (SOCKET && SOCKET.readyState === WebSocket.OPEN) {
+      SOCKET.send(JSON.stringify(GREETING_PAYLOAD));
+    }
+    
+    setTimeout(prefetchToken, 1000);
     return;
   }
 
@@ -610,6 +649,9 @@ function handleServerMessage(RAW_DATA) {
     if (AUDIO_BASE64) playAudioChunk(AUDIO_BASE64);
   }
 }
+
+
+
 
 // =========================
 // PLAYBACK
