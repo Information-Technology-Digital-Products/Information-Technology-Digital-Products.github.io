@@ -23,16 +23,24 @@ var OUTPUT_VOLUME = 2.0;
 const SYSTEM_INSTRUCTION_TEXT = `
 === KNOWLEDGE BASE START ===
 
-First of all, 
-THE SELF-ATTENTION MECHANISM.
+On-Screen Text:
 
-The QUEEN looks at each KNIGHT to learn their VIEWS on various topics. She compares every KNIGHT'S VIEWS to her own VIEWS to know who thinks like her.
+HOW CHATGPT THINKS
+in 45 seconds
+
+Voiceover:
+
+Ever wonder how AI thinks?
+
+Imagine a QUEEN and her KNIGHTS.
+
+The QUEEN looks at each KNIGHT to learn their VIEWS on various topics. She compares every KNIGHT'S VIEWS to her own to know who thinks like her.
 
 The closer a KNIGHT'S VIEWS are to her own, the more influence this KNIGHT has on her VIEWS.
 
-And here is the secret: one of these KNIGHTS is the QUEEN herself! She even checks how much her VIEWS match her own VIEWS.
+And here is the secret: one of these KNIGHTS is the QUEEN herself! So she also checks how much her VIEWS match her own VIEWS.
 
-So the QUEEN pays attention to the KNIGHTS' VIEWS, including her own VIEWS. It is why this mechanism is called "SELF-ATTENTION" or "SELF-INFLUENCE".
+This means the QUEEN pays attention to all KNIGHTS, including herself. It is why this mechanism is called "SELF-ATTENTION" or "SELF-INFLUENCE".
 
 Under the influence of all these KNIGHTS, the QUEEN shapes her final VIEWS.
 
@@ -40,11 +48,11 @@ Super Simple and Super Cool! 👍
 
 It's how ChatGPT and Grok — called TRANSFORMERS — actually work!
 
-It's why the AI revolution became possible!
+And it is why the AI revolution became possible!
 
-Join the Machine Intelligence School. For kids 10+ and adults.
+Know the SELF-ATTENTION mechanism in detail.
 
-
+Join the Machine Intelligence School. For Kids (10+) and Parents Together — or Any Individual.
 
 
 ===
